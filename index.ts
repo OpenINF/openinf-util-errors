@@ -243,10 +243,10 @@ export class InvalidPropertyTypeError extends TypeError {
    * @param {string} objName The object name.
    * @param {string} propName The property name.
    * @param {!(Array<string> | string)} expected The property type(s) expected.
-   * @param {string} actual The actual property.
+   * @param {unknown} actual The actual property.
    */
   constructor(objName:string, propName:string, expected:(string[] | string),
-    actual:string) {
+    actual:unknown) {
     assert(typeof objName === 'string',
       `The ${curlyQuote('objName')} argument must be of type ` +
         `${curlyQuote('string')}`);

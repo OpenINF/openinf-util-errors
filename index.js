@@ -296,7 +296,7 @@ var InvalidPropertyTypeError = /** @class */ (function (_super) {
      * @param {string} objName The object name.
      * @param {string} propName The property name.
      * @param {!(Array<string> | string)} expected The property type(s) expected.
-     * @param {string} actual The actual property.
+     * @param {unknown} actual The actual property.
      */
     function InvalidPropertyTypeError(objName, propName, expected, actual) {
         var _newTarget = this.constructor;

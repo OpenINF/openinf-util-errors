@@ -54,9 +54,9 @@ export declare class InvalidPropertyTypeError extends TypeError {
      * @param {string} objName The object name.
      * @param {string} propName The property name.
      * @param {!(Array<string> | string)} expected The property type(s) expected.
-     * @param {string} actual The actual property.
+     * @param {unknown} actual The actual property.
      */
-    constructor(objName: string, propName: string, expected: (string[] | string), actual: string);
+    constructor(objName: string, propName: string, expected: (string[] | string), actual: unknown);
 }
 /**
  * The number of arguments passed to a function is invalid.

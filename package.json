@@ -1,0 +1,30 @@
+{
+  "name": "@openinf/util-errors",
+  "version": "1.0.0",
+  "description": "Essential utility errors inspired by Node.js error codes",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/openinf/util-errors.git"
+  },
+  "keywords": [
+    "errors"
+  ],
+  "author": "The OpenINF Authors",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/openinf/util-errors/issues"
+  },
+  "homepage": "https://github.com/openinf/util-errors#readme",
+  "dependencies": {
+    "@openinf/util-text": "^1.0.0",
+    "@openinf/util-types": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.22"
+  }
+}

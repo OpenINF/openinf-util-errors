@@ -335,7 +335,7 @@ var InvalidArgsNumberError = /** @class */ (function (_super) {
     /**
      * @param {string} funcName The function name.
      * @param {number} expected The number of arguments expected to be passed.
-     * @param {string} actual The actual number of arguments passed.
+     * @param {number} actual The actual number of arguments passed.
      */
     function InvalidArgsNumberError(funcName, expected, actual) {
         var _newTarget = this.constructor;

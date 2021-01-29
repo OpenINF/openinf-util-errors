@@ -284,9 +284,9 @@ export class InvalidArgsNumberError extends TypeError {
   /**
    * @param {string} funcName The function name.
    * @param {number} expected The number of arguments expected to be passed.
-   * @param {string} actual The actual number of arguments passed.
+   * @param {number} actual The actual number of arguments passed.
    */
-  constructor(funcName:string, expected:number, actual:string) {
+  constructor(funcName:string, expected:number, actual:number) {
     super(`The number of arguments expected by function ` +
       `${curlyQuote(funcName)} is ${expected}, but ${actual} were passed`);
     Object.setPrototypeOf(this, new.target.prototype);

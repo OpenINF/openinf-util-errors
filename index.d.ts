@@ -66,9 +66,9 @@ export declare class InvalidArgsNumberError extends TypeError {
     /**
      * @param {string} funcName The function name.
      * @param {number} expected The number of arguments expected to be passed.
-     * @param {string} actual The actual number of arguments passed.
+     * @param {number} actual The actual number of arguments passed.
      */
-    constructor(funcName: string, expected: number, actual: string);
+    constructor(funcName: string, expected: number, actual: number);
 }
 /**
  * For APIs that accept options objects, some options might be mandatory. This

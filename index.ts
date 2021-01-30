@@ -40,9 +40,9 @@ function getInvalidTypeSubMsg(expected:(string | string[]),
   if (!isArray(expected)) { expected = toArray(expected); }
 
   let msg = '';
-  let types = dict({});
-  let instances = dict({});
-  let other = dict({});
+  let types:string[] = dict({});
+  let instances:string[] = dict({});
+  let other:string[] = dict({});
 
   for (const value of expected) {
     assert(typeof value === 'string',

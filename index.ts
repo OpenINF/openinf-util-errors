@@ -261,8 +261,9 @@ export class InvalidPropertyTypeError extends TypeError {
     assert(typeof propName === 'string',
       `The ${curlyQuote('propName')} argument must be of type ` +
         `${curlyQuote('string')}`);
-    super(`The ${curlyQuote(propName)} property of object ` +
-      `${curlyQuote(objName)} must be ` + getRecievedSubMsg(value));
+    super(`The ${curlyQuote(propName)} property of object named ` +
+      `${curlyQuote(objName)} must be ` +
+        getInvalidTypeSubMsg(expected, value));
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = 'InvalidPropertyTypeError';
     this.code = 'ERR_INVALID_PROPERTY_TYPE';

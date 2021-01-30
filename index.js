@@ -309,8 +309,9 @@ var InvalidPropertyTypeError = /** @class */ (function (_super) {
             ("" + util_text_1.curlyQuote('string')));
         assert_1.strict(typeof propName === 'string', "The " + util_text_1.curlyQuote('propName') + " argument must be of type " +
             ("" + util_text_1.curlyQuote('string')));
-        _this = _super.call(this, "The " + util_text_1.curlyQuote(propName) + " property of object " +
-            (util_text_1.curlyQuote(objName) + " must be ") + getRecievedSubMsg(value)) || this;
+        _this = _super.call(this, "The " + util_text_1.curlyQuote(propName) + " property of object named " +
+            (util_text_1.curlyQuote(objName) + " must be ") +
+            getInvalidTypeSubMsg(expected, value)) || this;
         Object.setPrototypeOf(_this, _newTarget.prototype);
         _this.name = 'InvalidPropertyTypeError';
         _this.code = 'ERR_INVALID_PROPERTY_TYPE';

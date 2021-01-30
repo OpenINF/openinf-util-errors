@@ -1,6 +1,6 @@
 {
   "name": "@openinf/util-errors",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Essential utility errors inspired by Node.js error codes",
   "main": "./index.js",
   "types": "./index.d.ts",

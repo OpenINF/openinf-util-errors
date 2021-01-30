@@ -181,9 +181,9 @@ export class InvalidArgTypeError extends TypeError {
   code!: string;
 
   /**
-   * @param {string} argName The argument name.
+   * @param {string} argName The name of the argument of invalid type.
    * @param {!(Array<string> | string)} expected The argument type(s) expected.
-   * @param {unknown} actual The actual argument.
+   * @param {unknown} actual The actual value of the argument of invalid type.
    */
   constructor(argName:string, expected:(string[] | string), actual:unknown) {
     assert(typeof argName === 'string',
@@ -212,21 +212,21 @@ export class InvalidPropertyValueError extends TypeError {
   code!: string;
 
   /**
-   * @param {string} objName The object name.
-   * @param {string} propName The property name.
-   * @param {unknown} propValue The property value.
+   * @param {string} objName The name of the object affected.
+   * @param {string} propName The property name assigned invalid value.
+   * @param {unknown} actual The actual invalid property value.
    */
   constructor(objName:string, propName:string, propValue:unknown) {
     let inspected = utilInspect(propValue).slice(1, -1);
     if (inspected.length > 128) {
       inspected = `${ellipsify(inspected.slice(0, 128))}`;
     }
-  
+
     super(
       `Invalid value for property ${curlyQuote(propName)} of object ` +
         `${curlyQuote(objName)}. Received ${curlyQuote(inspected)}`
     );
-  
+
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = 'InvalidPropertyValueError';
     this.code = 'ERR_INVALID_PROPERTY_VALUE';
@@ -240,10 +240,10 @@ export class InvalidPropertyTypeError extends TypeError {
   code!: string;
 
   /**
-   * @param {string} objName The object name.
-   * @param {string} propName The property name.
+   * @param {string} objName The name of the object affected.
+   * @param {string} propName The property name assigned value of invalid type.
    * @param {!(Array<string> | string)} expected The property type(s) expected.
-   * @param {unknown} actual The actual property value.
+   * @param {unknown} actual The actual property value of invalid type.
    */
   constructor(objName:string, propName:string, expected:(string[] | string),
     actual:unknown) {
@@ -282,7 +282,7 @@ export class InvalidArgsNumberError extends TypeError {
   code!: string;
 
   /**
-   * @param {string} funcName The function name.
+   * @param {string} funcName The name of the function in question.
    * @param {number} expected The number of arguments expected to be passed.
    * @param {number} actual The actual number of arguments passed.
    */
@@ -324,9 +324,9 @@ export class InvalidReturnPropertyValueError extends TypeError {
 
   /**
    * @param {string} input The type of the invalid value.
-   * @param {string} name The name of the function that returned the value.
-   * @param {string} prop The property name of the invalid value.
-   * @param {unknown} value The actual invalid value.
+   * @param {string} name The name of the function returning the invalidity.
+   * @param {string} prop The property name assigned the invalid value.
+   * @param {unknown} value The actual invalid property value.
    */
   constructor(input:string, name:string, prop:string, value:unknown) {
     super(`Expected a valid ${curlyQuote(input)} to be returned for the ` +
@@ -346,12 +346,12 @@ export class InvalidReturnPropertyValueError extends TypeError {
  */
 export class InvalidReturnPropertyTypeError extends TypeError {
   code!: string;
-  
+
   /**
-   * @param {string} input The type of the invalid value.
-   * @param {string} name The name of the function that returned the value.
-   * @param {string} prop The property name of the invalid value.
-   * @param {unknown} value The actual invalid value.
+   * @param {string} input The name of the invalid property value type.
+   * @param {string} name The name of the function returning the invalidity.
+   * @param {string} prop The property name assigned the value of invalid type.
+   * @param {unknown} value The actual value of invalid type assinged.
    */
   constructor(input:string, name:string, prop:string, value:unknown) {
     let type;
@@ -379,9 +379,9 @@ export class InvalidReturnValueError extends TypeError {
   code!: string;
 
   /**
-   * @param {string} input The type of the invalid value.
+   * @param {string} input The type of the invalid return value.
    * @param {string} name The name of the function that returned the value.
-   * @param {unknown} value The actual invalid value.
+   * @param {unknown} value The actual invalid value returned.
    */
   constructor(input:string, name:string, value:unknown) {
     let type;
@@ -408,9 +408,9 @@ export class InvalidReturnTypeError extends TypeError {
   code!: string;
 
   /**
-   * @param {string} input The type of the invalid value.
-   * @param {string} name The name of the function that returned the value.
-   * @param {unknown} value The actual invalid value.
+   * @param {string} input The type of the value of invalid type returned.
+   * @param {string} name The name of the function that returned the invalidity.
+   * @param {unknown} value The actual value of invalid type returned.
    */
   constructor(input:string, name:string, value:unknown) {
     let type;

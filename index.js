@@ -233,9 +233,9 @@ exports.InvalidArgValueError = InvalidArgValueError;
 var InvalidArgTypeError = /** @class */ (function (_super) {
     __extends(InvalidArgTypeError, _super);
     /**
-     * @param {string} argName The argument name.
+     * @param {string} argName The name of the argument of invalid type.
      * @param {!(Array<string> | string)} expected The argument type(s) expected.
-     * @param {unknown} actual The actual argument.
+     * @param {unknown} actual The actual value of the argument of invalid type.
      */
     function InvalidArgTypeError(argName, expected, actual) {
         var _newTarget = this.constructor;
@@ -266,9 +266,9 @@ exports.InvalidArgTypeError = InvalidArgTypeError;
 var InvalidPropertyValueError = /** @class */ (function (_super) {
     __extends(InvalidPropertyValueError, _super);
     /**
-     * @param {string} objName The object name.
-     * @param {string} propName The property name.
-     * @param {unknown} propValue The property value.
+     * @param {string} objName The name of the object affected.
+     * @param {string} propName The property name assigned invalid value.
+     * @param {unknown} actual The actual invalid property value.
      */
     function InvalidPropertyValueError(objName, propName, propValue) {
         var _newTarget = this.constructor;
@@ -293,10 +293,10 @@ exports.InvalidPropertyValueError = InvalidPropertyValueError;
 var InvalidPropertyTypeError = /** @class */ (function (_super) {
     __extends(InvalidPropertyTypeError, _super);
     /**
-     * @param {string} objName The object name.
-     * @param {string} propName The property name.
+     * @param {string} objName The name of the object affected.
+     * @param {string} propName The property name assigned value of invalid type.
      * @param {!(Array<string> | string)} expected The property type(s) expected.
-     * @param {unknown} actual The actual property value.
+     * @param {unknown} actual The actual property value of invalid type.
      */
     function InvalidPropertyTypeError(objName, propName, expected, actual) {
         var _newTarget = this.constructor;
@@ -333,7 +333,7 @@ exports.InvalidPropertyTypeError = InvalidPropertyTypeError;
 var InvalidArgsNumberError = /** @class */ (function (_super) {
     __extends(InvalidArgsNumberError, _super);
     /**
-     * @param {string} funcName The function name.
+     * @param {string} funcName The name of the function in question.
      * @param {number} expected The number of arguments expected to be passed.
      * @param {number} actual The actual number of arguments passed.
      */
@@ -379,9 +379,9 @@ var InvalidReturnPropertyValueError = /** @class */ (function (_super) {
     __extends(InvalidReturnPropertyValueError, _super);
     /**
      * @param {string} input The type of the invalid value.
-     * @param {string} name The name of the function that returned the value.
-     * @param {string} prop The property name of the invalid value.
-     * @param {unknown} value The actual invalid value.
+     * @param {string} name The name of the function returning the invalidity.
+     * @param {string} prop The property name assigned the invalid value.
+     * @param {unknown} value The actual invalid property value.
      */
     function InvalidReturnPropertyValueError(input, name, prop, value) {
         var _newTarget = this.constructor;
@@ -405,10 +405,10 @@ exports.InvalidReturnPropertyValueError = InvalidReturnPropertyValueError;
 var InvalidReturnPropertyTypeError = /** @class */ (function (_super) {
     __extends(InvalidReturnPropertyTypeError, _super);
     /**
-     * @param {string} input The type of the invalid value.
-     * @param {string} name The name of the function that returned the value.
-     * @param {string} prop The property name of the invalid value.
-     * @param {unknown} value The actual invalid value.
+     * @param {string} input The name of the invalid property value type.
+     * @param {string} name The name of the function returning the invalidity.
+     * @param {string} prop The property name assigned the value of invalid type.
+     * @param {unknown} value The actual value of invalid type assinged.
      */
     function InvalidReturnPropertyTypeError(input, name, prop, value) {
         var _newTarget = this.constructor;
@@ -440,9 +440,9 @@ exports.InvalidReturnPropertyTypeError = InvalidReturnPropertyTypeError;
 var InvalidReturnValueError = /** @class */ (function (_super) {
     __extends(InvalidReturnValueError, _super);
     /**
-     * @param {string} input The type of the invalid value.
+     * @param {string} input The type of the invalid return value.
      * @param {string} name The name of the function that returned the value.
-     * @param {unknown} value The actual invalid value.
+     * @param {unknown} value The actual invalid value returned.
      */
     function InvalidReturnValueError(input, name, value) {
         var _newTarget = this.constructor;
@@ -473,9 +473,9 @@ exports.InvalidReturnValueError = InvalidReturnValueError;
 var InvalidReturnTypeError = /** @class */ (function (_super) {
     __extends(InvalidReturnTypeError, _super);
     /**
-     * @param {string} input The type of the invalid value.
-     * @param {string} name The name of the function that returned the value.
-     * @param {unknown} value The actual invalid value.
+     * @param {string} input The type of the value of invalid type returned.
+     * @param {string} name The name of the function that returned the invalidity.
+     * @param {unknown} value The actual value of invalid type returned.
      */
     function InvalidReturnTypeError(input, name, value) {
         var _newTarget = this.constructor;

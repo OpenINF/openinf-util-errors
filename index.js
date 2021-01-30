@@ -210,7 +210,7 @@ function getInspectedMaybeCapped(value, maxLen) {
 // Errors
 // -----------------------------------------------------------------------------
 /**
- * An invalid or unsupported value was passed for a given argument.
+ * Thrown in case an invalid or unsupported value was passed for a given argument.
  * @see https://nodejs.org/api/errors.html#ERR_INVALID_ARG_VALUE
  * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1121-L1128
  */
@@ -239,7 +239,7 @@ var InvalidArgValueError = /** @class */ (function (_super) {
 }(TypeError));
 exports.InvalidArgValueError = InvalidArgValueError;
 /**
- * An argument of the wrong type was passed for a given argument.
+ * Thrown in case an argument of the wrong type was passed for a given argument.
  * @see https://nodejs.org/api/errors.html#ERR_INVALID_ARG_TYPE
  * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1014-L1120
  */
@@ -266,7 +266,7 @@ var InvalidArgTypeError = /** @class */ (function (_super) {
 }(TypeError));
 exports.InvalidArgTypeError = InvalidArgTypeError;
 /**
- * An invalid or unsupported value for an object property.
+ * Thrown in case an invalid or unsupported value of an object property.
  */
 var InvalidPropertyValueError = /** @class */ (function (_super) {
     __extends(InvalidPropertyValueError, _super);
@@ -274,16 +274,18 @@ var InvalidPropertyValueError = /** @class */ (function (_super) {
      * @param {string} objName The name of the object in question.
      * @param {string} propName The property name assigned invalid value.
      * @param {unknown} value The actual invalid property value assigned.
+     * @param {string} reason The reason for invalidity.
      */
-    function InvalidPropertyValueError(objName, propName, value) {
+    function InvalidPropertyValueError(objName, propName, value, reason) {
         var _newTarget = this.constructor;
+        if (reason === void 0) { reason = 'is invalid'; }
         var _this = this;
         assert_1.strict(typeof objName === 'string', "The " + util_text_1.curlyQuote('objName') + " argument must be of type " +
             ("" + util_text_1.curlyQuote('string')));
         assert_1.strict(typeof propName === 'string', "The " + util_text_1.curlyQuote('propName') + " argument must be of type " +
             ("" + util_text_1.curlyQuote('string')));
-        _this = _super.call(this, "Invalid value for property " + util_text_1.curlyQuote(propName) + " of object " +
-            ("" + util_text_1.curlyQuote(objName)) + getRecievedSubMsg(value)) || this;
+        _this = _super.call(this, "The value for the " + util_text_1.curlyQuote(propName) + " property of the " +
+            (util_text_1.curlyQuote(objName) + " object " + reason) + getRecievedSubMsg(value)) || this;
         Object.setPrototypeOf(_this, _newTarget.prototype);
         _this.name = 'InvalidPropertyValueError';
         _this.code = 'ERR_INVALID_PROPERTY_VALUE';
@@ -293,7 +295,7 @@ var InvalidPropertyValueError = /** @class */ (function (_super) {
 }(TypeError));
 exports.InvalidPropertyValueError = InvalidPropertyValueError;
 /**
- * An invalid or unsupported type for an object property.
+ * Thrown in case an invalid or unsupported value type for an object property.
  */
 var InvalidPropertyTypeError = /** @class */ (function (_super) {
     __extends(InvalidPropertyTypeError, _super);
@@ -310,9 +312,8 @@ var InvalidPropertyTypeError = /** @class */ (function (_super) {
             ("" + util_text_1.curlyQuote('string')));
         assert_1.strict(typeof propName === 'string', "The " + util_text_1.curlyQuote('propName') + " argument must be of type " +
             ("" + util_text_1.curlyQuote('string')));
-        _this = _super.call(this, "The " + util_text_1.curlyQuote(propName) + " property of object named " +
-            (util_text_1.curlyQuote(objName) + " must be ") +
-            getInvalidTypeSubMsg(expected, value)) || this;
+        _this = _super.call(this, "The " + util_text_1.curlyQuote(propName) + " property of the " + util_text_1.curlyQuote(objName) + " " +
+            "object must be " + getInvalidTypeSubMsg(expected, value)) || this;
         Object.setPrototypeOf(_this, _newTarget.prototype);
         _this.name = 'InvalidPropertyTypeError';
         _this.code = 'ERR_INVALID_PROPERTY_TYPE';
@@ -322,7 +323,7 @@ var InvalidPropertyTypeError = /** @class */ (function (_super) {
 }(TypeError));
 exports.InvalidPropertyTypeError = InvalidPropertyTypeError;
 /**
- * Thrown in case a function option does not provide a valid value for one of
+ * Thrown in case a function does not provide a valid value for one of
  * its returned object properties on execution.
  * @see https://nodejs.org/api/errors.html#ERR_INVALID_RETURN_PROPERTY
  * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1187-L1190
@@ -330,22 +331,21 @@ exports.InvalidPropertyTypeError = InvalidPropertyTypeError;
 var InvalidReturnPropertyValueError = /** @class */ (function (_super) {
     __extends(InvalidReturnPropertyValueError, _super);
     /**
-     * @param {string} input The type of the invalid value.
      * @param {string} funcName The name of the function returning the invalidity.
      * @param {string} propName The property name assigned the invalid value.
      * @param {unknown} value The actual invalid property value assigned.
+     * @param {string} reason The reason for invalidity.
      */
-    function InvalidReturnPropertyValueError(input, funcName, propName, value) {
+    function InvalidReturnPropertyValueError(funcName, propName, value, reason) {
         var _newTarget = this.constructor;
+        if (reason === void 0) { reason = 'is invalid'; }
         var _this = this;
-        assert_1.strict(typeof input === 'string', "The " + util_text_1.curlyQuote('input') + " argument must be of type " +
-            ("" + util_text_1.curlyQuote('string')));
         assert_1.strict(typeof funcName === 'string', "The " + util_text_1.curlyQuote('funcName') + " argument must be of type " +
             ("" + util_text_1.curlyQuote('string')));
         assert_1.strict(typeof propName === 'string', "The " + util_text_1.curlyQuote('propName') + " argument must be of type " +
             ("" + util_text_1.curlyQuote('string')));
-        _this = _super.call(this, "Invalid " + input + " value for property " + util_text_1.curlyQuote(propName) + " " +
-            ("returned by the " + util_text_1.curlyQuote(funcName) + " function") +
+        _this = _super.call(this, "The value of the " + util_text_1.curlyQuote(propName) + " property " +
+            ("returned by the " + util_text_1.curlyQuote(funcName) + " function " + reason) +
             getRecievedSubMsg(value)) || this;
         Object.setPrototypeOf(_this, _newTarget.prototype);
         _this.name = 'InvalidReturnPropertyValueError';
@@ -356,7 +356,7 @@ var InvalidReturnPropertyValueError = /** @class */ (function (_super) {
 }(TypeError));
 exports.InvalidReturnPropertyValueError = InvalidReturnPropertyValueError;
 /**
- * Thrown in case a function option does not provide an expected value type for
+ * Thrown in case a function does not provide an expected value type for
  * one of its returned object properties on execution.
  * @see https://nodejs.org/api/errors.html#ERR_INVALID_RETURN_PROPERTY_VALUE
  * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1191-L1200
@@ -388,7 +388,7 @@ var InvalidReturnPropertyTypeError = /** @class */ (function (_super) {
 }(TypeError));
 exports.InvalidReturnPropertyTypeError = InvalidReturnPropertyTypeError;
 /**
- * Thrown in case a function option does not return an expected valid value on
+ * Thrown in case a function does not return an expected valid value on
  * execution.
  * @see https://nodejs.org/api/errors.html#ERR_INVALID_RETURN_VALUE
  * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1201-L1210
@@ -396,19 +396,17 @@ exports.InvalidReturnPropertyTypeError = InvalidReturnPropertyTypeError;
 var InvalidReturnValueError = /** @class */ (function (_super) {
     __extends(InvalidReturnValueError, _super);
     /**
-     * @param {string} input The type of the invalid return value.
      * @param {string} funcName The name of the function returning the invalidity.
      * @param {unknown} value The actual invalid value returned.
+     * @param {string} reason The reason for invalidity.
      */
-    function InvalidReturnValueError(input, funcName, value) {
+    function InvalidReturnValueError(input, funcName, value, reason) {
         var _newTarget = this.constructor;
         var _this = this;
-        assert_1.strict(typeof input === 'string', "The " + util_text_1.curlyQuote('input') + " argument must be of type " +
-            ("" + util_text_1.curlyQuote('string')));
         assert_1.strict(typeof funcName === 'string', "The " + util_text_1.curlyQuote('funcName') + " argument must be of type " +
             ("" + util_text_1.curlyQuote('string')));
-        _this = _super.call(this, "Invalid " + input + " value returned by the " + util_text_1.curlyQuote(funcName) + " " +
-            "function" + getRecievedSubMsg(value)) || this;
+        _this = _super.call(this, "The value returned by the " + util_text_1.curlyQuote(funcName) + " " +
+            ("function " + reason) + getRecievedSubMsg(value)) || this;
         Object.setPrototypeOf(_this, _newTarget.prototype);
         _this.name = 'InvalidReturnValueError';
         _this.code = 'ERR_INVALID_RETURN_VALUE';
@@ -418,7 +416,7 @@ var InvalidReturnValueError = /** @class */ (function (_super) {
 }(TypeError));
 exports.InvalidReturnValueError = InvalidReturnValueError;
 /**
- * Thrown in case a function option does not return an expected value type on
+ * Thrown in case a function does not return an expected value type on
  * execution, such as when a function is expected to return a promise.
  * @see https://nodejs.org/api/errors.html#ERR_INVALID_RETURN_VALUE
  * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1201-L1210
@@ -426,7 +424,6 @@ exports.InvalidReturnValueError = InvalidReturnValueError;
 var InvalidReturnTypeError = /** @class */ (function (_super) {
     __extends(InvalidReturnTypeError, _super);
     /**
-     * @param {string} input The type of the invalid return value.
      * @param {string} funcName The name of the function returning the invalidity.
      * @param {!(Array<string> | string)} expected The return type(s) expected.
      * @param {unknown} value The actual value of invalid type returned.
@@ -434,11 +431,9 @@ var InvalidReturnTypeError = /** @class */ (function (_super) {
     function InvalidReturnTypeError(input, funcName, expected, value) {
         var _newTarget = this.constructor;
         var _this = this;
-        assert_1.strict(typeof input === 'string', "The " + util_text_1.curlyQuote('input') + " argument must be of type " +
-            ("" + util_text_1.curlyQuote('string')));
         assert_1.strict(typeof funcName === 'string', "The " + util_text_1.curlyQuote('funcName') + " argument must be of type " +
             ("" + util_text_1.curlyQuote('string')));
-        _this = _super.call(this, "The value returned for the " + util_text_1.curlyQuote(funcName) + " function " +
+        _this = _super.call(this, "The value returned by the " + util_text_1.curlyQuote(funcName) + " function " +
             ("must be " + getInvalidTypeSubMsg(expected, value))) || this;
         Object.setPrototypeOf(_this, _newTarget.prototype);
         _this.name = 'InvalidReturnTypeError';
@@ -449,7 +444,7 @@ var InvalidReturnTypeError = /** @class */ (function (_super) {
 }(TypeError));
 exports.InvalidReturnTypeError = InvalidReturnTypeError;
 /**
- * The number of arguments passed to a function is invalid.
+ * Thrown in case the number of arguments passed to a function is invalid.
  */
 var InvalidArgsNumberError = /** @class */ (function (_super) {
     __extends(InvalidArgsNumberError, _super);
@@ -467,8 +462,8 @@ var InvalidArgsNumberError = /** @class */ (function (_super) {
             ("" + util_text_1.curlyQuote('number')));
         assert_1.strict(typeof value === 'number', "The " + util_text_1.curlyQuote('value') + " argument must be of type " +
             ("" + util_text_1.curlyQuote('number')));
-        _this = _super.call(this, "The number of arguments expected by function " +
-            (util_text_1.curlyQuote(funcName) + " is " + expected + ", but " + value + " were passed")) || this;
+        _this = _super.call(this, "The number of arguments expected by the " + util_text_1.curlyQuote(funcName) + " " +
+            ("function is " + expected + ", but " + value + " were passed")) || this;
         Object.setPrototypeOf(_this, _newTarget.prototype);
         _this.name = 'InvalidArgsNumberError';
         _this.code = 'ERR_INVALID_ARGS_NUMBER';
@@ -501,11 +496,13 @@ var MissingOptionError = /** @class */ (function (_super) {
 }(TypeError));
 exports.MissingOptionError = MissingOptionError;
 /**
- * A required argument of a Node.js API was not passed. This is only used for
- * strict compliance with the API specification (which in some cases may accept
- * `func(undefined)` but not `func()`). In most native Node.js APIs,
- * `func(undefined)` and `func()` are treated identically, and the
+ * Thrown in case a required argument of an API was not passed.
+ *
+ * This is only used for strict compliance with the API specification (which in
+ * some cases may accept `func(undefined)` but not `func()`). In most native
+ * Node.js APIs, `func(undefined)` and `func()` are treated identically, and the
  * `ERR_INVALID_ARG_TYPE` error code may be used instead.
+ *
  * @see https://nodejs.org/api/errors.html#ERR_MISSING_ARGS
  * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1268-L1293
  */
@@ -548,8 +545,8 @@ var MissingArgsError = /** @class */ (function (_super) {
 }(TypeError));
 exports.MissingArgsError = MissingArgsError;
 /**
- * An unhandled error occurred (for instance, when an 'error' event is emitted
- * by an EventEmitter but an 'error' handler is not registered).
+ * Thrown in case an unhandled error occurred (for instance, when an 'error'
+ * event is emitted by an EventEmitter without an 'error' handler registered).
  * @see https://nodejs.org/api/errors.html#ERR_UNHANDLED_ERROR
  * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1454-L1461
  */

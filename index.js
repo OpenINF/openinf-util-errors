@@ -83,9 +83,9 @@ function getInvalidTypeSubMsg(expected, actual) {
         expected = util_types_1.toArray(expected);
     }
     var msg = '';
-    var types = [];
-    var instances = [];
-    var other = [];
+    var types = util_object_1.dict({});
+    var instances = util_object_1.dict({});
+    var other = util_object_1.dict({});
     try {
         for (var expected_1 = __values(expected), expected_1_1 = expected_1.next(); !expected_1_1.done; expected_1_1 = expected_1.next()) {
             var value = expected_1_1.value;
@@ -184,8 +184,9 @@ function getRecievedSubMsg(value) {
         msg += ". Received function " + util_text_1.curlyQuote(value.name);
     }
     else if (util_types_1.isObject(value)) {
-        if (util_object_1.hasOwn(value, 'constructor') && util_object_1.hasOwn(value.constructor, 'name')) {
-            msg += ". Received an instance of " + util_text_1.curlyQuote(value.constructor.name);
+        if (util_object_1.ownProperty(value, 'constructor') &&
+            util_object_1.ownProperty(util_object_1.map(value).constructor, 'name')) {
+            msg += ". Received an instance of " + util_text_1.curlyQuote(util_object_1.map(value).constructor.name);
         }
         else {
             var inspected = util_1.inspect(value, { depth: -1, colors: false });
@@ -203,7 +204,7 @@ function getInspectedMaybeCapped(value, maxLen) {
     if (inspected.length > maxLen) {
         inspected = util_text_1.ellipsify(inspected.slice(0, maxLen));
     }
-    return util_text_1.curlyQuote(inspected);
+    return util_text_1.curlyQuote(String(inspected));
 }
 // -----------------------------------------------------------------------------
 // Errors

@@ -13,7 +13,7 @@
 import { strict as assert } from 'assert';
 import { inspect as utilInspect } from 'util';
 import { isArray, isObject, toArray } from '@openinf/util-types';
-import { hasOwn } from '@openinf/util-object';
+import { ownProperty, hasOwn, dict, map } from '@openinf/util-object';
 import { curlyQuote, ellipsify } from '@openinf/util-text';
 
 const classRegExp = /^([A-Z][a-z0-9]*)+$/;
@@ -40,9 +40,9 @@ function getInvalidTypeSubMsg(expected:(string | string[]),
   if (!isArray(expected)) { expected = toArray(expected); }
 
   let msg = '';
-  let types = [];
-  let instances = [];
-  let other = [];
+  let types = dict({});
+  let instances = dict({});
+  let other = dict({});
 
   for (const value of expected) {
     assert(typeof value === 'string',
@@ -125,16 +125,17 @@ function getInvalidTypeSubMsg(expected:(string | string[]),
   return msg;
 }
 
-function getRecievedSubMsg(value:unknown) {
+function getRecievedSubMsg(value:unknown):string {
   let msg = '';
   if (value == null) {
     msg += `. Received ${curlyQuote(String(value))}`;
   } else if (typeof value === 'function' && hasOwn(value, 'name')) {
     msg += `. Received function ${curlyQuote(value.name)}`;
   } else if (isObject(value)) {
-    if (hasOwn(value, 'constructor') && hasOwn(value.constructor, 'name')) {
+    if (ownProperty(value, 'constructor') &&
+      ownProperty(map(value).constructor, 'name')) {
       msg += `. Received an instance of ${
-        curlyQuote(value.constructor.name)
+        curlyQuote(map(value).constructor.name)
       }`;
     } else {
       const inspected = utilInspect(value, { depth: -1, colors: false });
@@ -147,12 +148,12 @@ function getRecievedSubMsg(value:unknown) {
   return msg;
 }
 
-function getInspectedMaybeCapped(value, maxLen) {
+function getInspectedMaybeCapped(value:unknown, maxLen:number):string {
   let inspected = utilInspect(value, { colors: false }).slice(1, -1);
   if (inspected.length > maxLen) {
     inspected = ellipsify(inspected.slice(0, maxLen));
   }
-  return curlyQuote(inspected);
+  return curlyQuote(String(inspected));
 }
 
 // -----------------------------------------------------------------------------

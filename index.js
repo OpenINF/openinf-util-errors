@@ -439,7 +439,7 @@ var InvalidReturnTypeError = /** @class */ (function (_super) {
         assert_1.strict(typeof funcName === 'string', "The " + util_text_1.curlyQuote('funcName') + " argument must be of type " +
             ("" + util_text_1.curlyQuote('string')));
         _this = _super.call(this, "The value returned for the " + util_text_1.curlyQuote(funcName) + " function " +
-            ("must be " + getInvalidTypeSubMsg([String(expected)], value))) || this;
+            ("must be " + getInvalidTypeSubMsg(expected, value))) || this;
         Object.setPrototypeOf(_this, _newTarget.prototype);
         _this.name = 'InvalidReturnTypeError';
         _this.code = 'ERR_INVALID_RETURN_TYPE';

@@ -381,7 +381,7 @@ export class InvalidReturnTypeError extends TypeError {
    * @param {!(Array<string> | string)} expected The return type(s) expected.
    * @param {unknown} value The actual value of invalid type returned.
    */
-  constructor(input:string, funcName:string, expected: (string[] | string),
+  constructor(input:string, funcName:string, expected:(string[] | string),
     value:unknown) {
     assert(typeof input === 'string',
       `The ${curlyQuote('input')} argument must be of type ` +
@@ -390,7 +390,7 @@ export class InvalidReturnTypeError extends TypeError {
       `The ${curlyQuote('funcName')} argument must be of type ` +
         `${curlyQuote('string')}`);
     super(`The value returned for the ${curlyQuote(funcName)} function ` +
-      `must be ${getInvalidTypeSubMsg([String(expected)], value)}`);
+      `must be ${getInvalidTypeSubMsg(expected, value)}`);
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = 'InvalidReturnTypeError';
     this.code = 'ERR_INVALID_RETURN_TYPE';

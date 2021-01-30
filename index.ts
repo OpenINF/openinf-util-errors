@@ -183,9 +183,9 @@ export class InvalidArgTypeError extends TypeError {
   /**
    * @param {string} argName The name of the argument of invalid type.
    * @param {!(Array<string> | string)} expected The argument type(s) expected.
-   * @param {unknown} actual The actual value of the argument of invalid type.
+   * @param {unknown} value The actual value of the argument of invalid type.
    */
-  constructor(argName:string, expected:(string[] | string), actual:unknown) {
+  constructor(argName:string, expected:(string[] | string), value:unknown) {
     assert(typeof argName === 'string',
       `The ${curlyQuote('argName')} argument must be of type ` +
         `${curlyQuote('string')}`);
@@ -193,9 +193,9 @@ export class InvalidArgTypeError extends TypeError {
     let msg = `The ${curlyQuote(argName)} argument must be `;
 
     if (!isArray(expected)) {
-      msg += getCommonInvalidTypeMessage([String(expected)], actual); ;
+      msg += getCommonInvalidTypeMessage([String(expected)], value); ;
     } else {
-      msg += getCommonInvalidTypeMessage([ ...expected ], actual); ;
+      msg += getCommonInvalidTypeMessage([ ...expected ], value); ;
     }
 
     super(msg);
@@ -212,9 +212,9 @@ export class InvalidPropertyValueError extends TypeError {
   code!: string;
 
   /**
-   * @param {string} objName The name of the object affected.
+   * @param {string} objName The name of the object in question.
    * @param {string} propName The property name assigned invalid value.
-   * @param {unknown} actual The actual invalid property value.
+   * @param {unknown} value The actual invalid property value assigned.
    */
   constructor(objName:string, propName:string, propValue:unknown) {
     let inspected = utilInspect(propValue).slice(1, -1);
@@ -240,32 +240,28 @@ export class InvalidPropertyTypeError extends TypeError {
   code!: string;
 
   /**
-   * @param {string} objName The name of the object affected.
+   * @param {string} objName The name of the object in question.
    * @param {string} propName The property name assigned value of invalid type.
    * @param {!(Array<string> | string)} expected The property type(s) expected.
-   * @param {unknown} actual The actual property value of invalid type.
+   * @param {unknown} value The actual property value of invalid type assigned.
    */
   constructor(objName:string, propName:string, expected:(string[] | string),
-    actual:unknown) {
+    value:unknown) {
     assert(typeof objName === 'string',
       `The ${curlyQuote('objName')} argument must be of type ` +
         `${curlyQuote('string')}`);
 
     assert(typeof propName === 'string',
-    `The ${curlyQuote('propName')} argument must be of type ` +
-      `${curlyQuote('string')}`);
-
-    if (!isArray(expected)) {
-      expected = [String(expected)];
-    }
+      `The ${curlyQuote('propName')} argument must be of type ` +
+        `${curlyQuote('string')}`);
 
     let msg = `The ${curlyQuote(propName)} property of object ` +
       `${curlyQuote(objName)} must be `;
 
     if (!isArray(expected)) {
-      msg += getCommonInvalidTypeMessage([String(expected)], actual); ;
+      msg += getCommonInvalidTypeMessage([String(expected)], value); ;
     } else {
-      msg += getCommonInvalidTypeMessage([ ...expected ], actual); ;
+      msg += getCommonInvalidTypeMessage([ ...expected ], value); ;
     }
 
     super(msg);
@@ -284,11 +280,11 @@ export class InvalidArgsNumberError extends TypeError {
   /**
    * @param {string} funcName The name of the function in question.
    * @param {number} expected The number of arguments expected to be passed.
-   * @param {number} actual The actual number of arguments passed.
+   * @param {number} value The actual number of arguments passed.
    */
-  constructor(funcName:string, expected:number, actual:number) {
+  constructor(funcName:string, expected:number, value:number) {
     super(`The number of arguments expected by function ` +
-      `${curlyQuote(funcName)} is ${expected}, but ${actual} were passed`);
+      `${curlyQuote(funcName)} is ${expected}, but ${value} were passed`);
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = 'InvalidArgsNumberError';
     this.code = 'ERR_INVALID_ARGS_NUMBER';
@@ -303,7 +299,6 @@ export class InvalidArgsNumberError extends TypeError {
  */
 export class MissingOptionError extends TypeError {
   code!: string;
-
   /** @param {string} optName The missing option name. */
   constructor(optName:string) {
     super(`${curlyQuote(optName)} is a missing option that is required`);
@@ -324,14 +319,29 @@ export class InvalidReturnPropertyValueError extends TypeError {
 
   /**
    * @param {string} input The type of the invalid value.
-   * @param {string} name The name of the function returning the invalidity.
-   * @param {string} prop The property name assigned the invalid value.
-   * @param {unknown} value The actual invalid property value.
+   * @param {string} funcName The name of the function returning the invalidity.
+   * @param {string} propName The property name assigned the invalid value.
+   * @param {unknown} value The actual invalid property value assigned.
    */
-  constructor(input:string, name:string, prop:string, value:unknown) {
-    super(`Expected a valid ${curlyQuote(input)} to be returned for the ` +
-      `${curlyQuote(prop)} from the ${curlyQuote(name)} function, but got ` +
-      `${curlyQuote(String(value))}`);
+  constructor(input:string, funcName:string, propName:string, value:unknown) {
+    let type;
+    if (value && value.constructor && value.constructor.name) {
+      type = `instance of ${curlyQuote(value.constructor.name)}`;
+    } else {
+      type = `type ${curlyQuote(typeof value)}`;
+    }
+
+    let inspected = utilInspect(propName).slice(1, -1);
+    if (inspected.length > 128) {
+      inspected = `${ellipsify(inspected.slice(0, 128))}`;
+    }
+
+    super(
+      `Invalid value for property ${curlyQuote(propName)} of object ` +
+      `returned by the ${curlyQuote(funcName)} function. Received ` +
+      `${type}: ${curlyQuote(inspected)}`
+    );
+
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = 'InvalidReturnPropertyValueError';
     this.code = 'ERR_INVALID_RETURN_PROPERTY_VALUE';
@@ -349,20 +359,23 @@ export class InvalidReturnPropertyTypeError extends TypeError {
 
   /**
    * @param {string} input The name of the invalid property value type.
-   * @param {string} name The name of the function returning the invalidity.
-   * @param {string} prop The property name assigned the value of invalid type.
-   * @param {unknown} value The actual value of invalid type assinged.
+   * @param {string} funcName The name of the function returning the invalidity.
+   * @param {string} propName The property name assigned value of invalid type.
+   * @param {!(Array<string> | string)} expected The property type(s) expected.
+   * @param {unknown} value The actual property value of invalid type assigned.
    */
-  constructor(input:string, name:string, prop:string, value:unknown) {
-    let type;
-    if (value && value.constructor && value.constructor.name) {
-      type = `instance of ${value.constructor.name}`;
+  constructor(input:string, funcName:string, propName:string,
+    expected:(string[] | string), value:unknown) {
+    let msg = `The ${curlyQuote(propName)} property returned by the ` +
+      `${curlyQuote(funcName)} must be `;
+
+    if (!isArray(expected)) {
+      msg += getCommonInvalidTypeMessage([String(expected)], value); ;
     } else {
-      type = `type ${typeof value}`;
+      msg += getCommonInvalidTypeMessage([...expected], value); ;
     }
-    super(`Expected ${curlyQuote(input)} to be returned for the ` +
-    `${curlyQuote(prop)} from the ${curlyQuote(name)} function, but got ` +
-    `${curlyQuote(type)}`);
+
+    super(msg);
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = 'InvalidReturnPropertyTypeError';
     this.code = 'ERR_INVALID_RETURN_PROPERTY_TYPE';
@@ -380,18 +393,28 @@ export class InvalidReturnValueError extends TypeError {
 
   /**
    * @param {string} input The type of the invalid return value.
-   * @param {string} name The name of the function that returned the value.
+   * @param {string} funcName The name of the function returning the invalidity.
    * @param {unknown} value The actual invalid value returned.
    */
-  constructor(input:string, name:string, value:unknown) {
+  constructor(input:string, funcName:string, value:unknown) {
     let type;
     if (value && value.constructor && value.constructor.name) {
-      type = `instance of ${value.constructor.name}`;
+      type = `instance of ${curlyQuote(value.constructor.name)}`;
     } else {
-      type = `type ${typeof value}`;
+      type = `type ${curlyQuote(typeof value)}`;
     }
-    super(`Expected a valid ${curlyQuote(input)} to be returned from the ` +
-      `${curlyQuote(name)} function, but got ${curlyQuote(String(value))}`);
+
+    let inspected = utilInspect(value).slice(1, -1);
+    if (inspected.length > 128) {
+      inspected = `${ellipsify(inspected.slice(0, 128))}`;
+    }
+
+    super(
+      `Invalid value returned by the ${curlyQuote(funcName)} function. ` +
+      `Received ${type}: ${curlyQuote(inspected)}`
+    );
+
+
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = 'InvalidReturnValueError';
     this.code = 'ERR_INVALID_RETURN_VALUE';
@@ -408,19 +431,23 @@ export class InvalidReturnTypeError extends TypeError {
   code!: string;
 
   /**
-   * @param {string} input The type of the value of invalid type returned.
-   * @param {string} name The name of the function that returned the invalidity.
-   * @param {unknown} value The actual value of invalid type returned.
+   * @param {string} input The type of the invalid return value.
+   * @param {string} funcName The name of the function returning the invalidity.
+   * @param {!(Array<string> | string)} expected The return type(s) expected.
+   * @param {unknown} value The actual value of the invalid return value type.
    */
-  constructor(input:string, name:string, value:unknown) {
-    let type;
-    if (value && value.constructor && value.constructor.name) {
-      type = `instance of ${value.constructor.name}`;
+  constructor(input:string, funcName:string, expected: (string[] | string),
+    value:unknown) {
+    let msg = `The value returned for the ${curlyQuote(funcName)} function ` +
+      `must be `;
+
+    if (!isArray(expected)) {
+      msg += getCommonInvalidTypeMessage([String(expected)], value); ;
     } else {
-      type = `type ${typeof value}`;
+      msg += getCommonInvalidTypeMessage([ ...expected ], value); ;
     }
-    super(`Expected ${curlyQuote(input)} to be returned from the ` +
-      `${curlyQuote(name)} function but got ${curlyQuote(type)}`);
+
+    super(msg);
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = 'InvalidReturnTypeError';
     this.code = 'ERR_INVALID_RETURN_TYPE';

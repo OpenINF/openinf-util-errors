@@ -235,20 +235,20 @@ var InvalidArgTypeError = /** @class */ (function (_super) {
     /**
      * @param {string} argName The name of the argument of invalid type.
      * @param {!(Array<string> | string)} expected The argument type(s) expected.
-     * @param {unknown} actual The actual value of the argument of invalid type.
+     * @param {unknown} value The actual value of the argument of invalid type.
      */
-    function InvalidArgTypeError(argName, expected, actual) {
+    function InvalidArgTypeError(argName, expected, value) {
         var _newTarget = this.constructor;
         var _this = this;
         assert_1.strict(typeof argName === 'string', "The " + util_text_1.curlyQuote('argName') + " argument must be of type " +
             ("" + util_text_1.curlyQuote('string')));
         var msg = "The " + util_text_1.curlyQuote(argName) + " argument must be ";
         if (!util_types_1.isArray(expected)) {
-            msg += getCommonInvalidTypeMessage([String(expected)], actual);
+            msg += getCommonInvalidTypeMessage([String(expected)], value);
             ;
         }
         else {
-            msg += getCommonInvalidTypeMessage(__spread(expected), actual);
+            msg += getCommonInvalidTypeMessage(__spread(expected), value);
             ;
         }
         _this = _super.call(this, msg) || this;
@@ -266,9 +266,9 @@ exports.InvalidArgTypeError = InvalidArgTypeError;
 var InvalidPropertyValueError = /** @class */ (function (_super) {
     __extends(InvalidPropertyValueError, _super);
     /**
-     * @param {string} objName The name of the object affected.
+     * @param {string} objName The name of the object in question.
      * @param {string} propName The property name assigned invalid value.
-     * @param {unknown} actual The actual invalid property value.
+     * @param {unknown} value The actual invalid property value assigned.
      */
     function InvalidPropertyValueError(objName, propName, propValue) {
         var _newTarget = this.constructor;
@@ -293,29 +293,26 @@ exports.InvalidPropertyValueError = InvalidPropertyValueError;
 var InvalidPropertyTypeError = /** @class */ (function (_super) {
     __extends(InvalidPropertyTypeError, _super);
     /**
-     * @param {string} objName The name of the object affected.
+     * @param {string} objName The name of the object in question.
      * @param {string} propName The property name assigned value of invalid type.
      * @param {!(Array<string> | string)} expected The property type(s) expected.
-     * @param {unknown} actual The actual property value of invalid type.
+     * @param {unknown} value The actual property value of invalid type assigned.
      */
-    function InvalidPropertyTypeError(objName, propName, expected, actual) {
+    function InvalidPropertyTypeError(objName, propName, expected, value) {
         var _newTarget = this.constructor;
         var _this = this;
         assert_1.strict(typeof objName === 'string', "The " + util_text_1.curlyQuote('objName') + " argument must be of type " +
             ("" + util_text_1.curlyQuote('string')));
         assert_1.strict(typeof propName === 'string', "The " + util_text_1.curlyQuote('propName') + " argument must be of type " +
             ("" + util_text_1.curlyQuote('string')));
-        if (!util_types_1.isArray(expected)) {
-            expected = [String(expected)];
-        }
         var msg = "The " + util_text_1.curlyQuote(propName) + " property of object " +
             (util_text_1.curlyQuote(objName) + " must be ");
         if (!util_types_1.isArray(expected)) {
-            msg += getCommonInvalidTypeMessage([String(expected)], actual);
+            msg += getCommonInvalidTypeMessage([String(expected)], value);
             ;
         }
         else {
-            msg += getCommonInvalidTypeMessage(__spread(expected), actual);
+            msg += getCommonInvalidTypeMessage(__spread(expected), value);
             ;
         }
         _this = _super.call(this, msg) || this;
@@ -335,12 +332,12 @@ var InvalidArgsNumberError = /** @class */ (function (_super) {
     /**
      * @param {string} funcName The name of the function in question.
      * @param {number} expected The number of arguments expected to be passed.
-     * @param {number} actual The actual number of arguments passed.
+     * @param {number} value The actual number of arguments passed.
      */
-    function InvalidArgsNumberError(funcName, expected, actual) {
+    function InvalidArgsNumberError(funcName, expected, value) {
         var _newTarget = this.constructor;
         var _this = _super.call(this, "The number of arguments expected by function " +
-            (util_text_1.curlyQuote(funcName) + " is " + expected + ", but " + actual + " were passed")) || this;
+            (util_text_1.curlyQuote(funcName) + " is " + expected + ", but " + value + " were passed")) || this;
         Object.setPrototypeOf(_this, _newTarget.prototype);
         _this.name = 'InvalidArgsNumberError';
         _this.code = 'ERR_INVALID_ARGS_NUMBER';
@@ -379,15 +376,27 @@ var InvalidReturnPropertyValueError = /** @class */ (function (_super) {
     __extends(InvalidReturnPropertyValueError, _super);
     /**
      * @param {string} input The type of the invalid value.
-     * @param {string} name The name of the function returning the invalidity.
-     * @param {string} prop The property name assigned the invalid value.
-     * @param {unknown} value The actual invalid property value.
+     * @param {string} funcName The name of the function returning the invalidity.
+     * @param {string} propName The property name assigned the invalid value.
+     * @param {unknown} value The actual invalid property value assigned.
      */
-    function InvalidReturnPropertyValueError(input, name, prop, value) {
+    function InvalidReturnPropertyValueError(input, funcName, propName, value) {
         var _newTarget = this.constructor;
-        var _this = _super.call(this, "Expected a valid " + util_text_1.curlyQuote(input) + " to be returned for the " +
-            (util_text_1.curlyQuote(prop) + " from the " + util_text_1.curlyQuote(name) + " function, but got ") +
-            ("" + util_text_1.curlyQuote(String(value)))) || this;
+        var _this = this;
+        var type;
+        if (value && value.constructor && value.constructor.name) {
+            type = "instance of " + util_text_1.curlyQuote(value.constructor.name);
+        }
+        else {
+            type = "type " + util_text_1.curlyQuote(typeof value);
+        }
+        var inspected = util_1.inspect(propName).slice(1, -1);
+        if (inspected.length > 128) {
+            inspected = "" + util_text_1.ellipsify(inspected.slice(0, 128));
+        }
+        _this = _super.call(this, "Invalid value for property " + util_text_1.curlyQuote(propName) + " of object " +
+            ("returned by the " + util_text_1.curlyQuote(funcName) + " function. Received ") +
+            (type + ": " + util_text_1.curlyQuote(inspected))) || this;
         Object.setPrototypeOf(_this, _newTarget.prototype);
         _this.name = 'InvalidReturnPropertyValueError';
         _this.code = 'ERR_INVALID_RETURN_PROPERTY_VALUE';
@@ -406,23 +415,25 @@ var InvalidReturnPropertyTypeError = /** @class */ (function (_super) {
     __extends(InvalidReturnPropertyTypeError, _super);
     /**
      * @param {string} input The name of the invalid property value type.
-     * @param {string} name The name of the function returning the invalidity.
-     * @param {string} prop The property name assigned the value of invalid type.
-     * @param {unknown} value The actual value of invalid type assinged.
+     * @param {string} funcName The name of the function returning the invalidity.
+     * @param {string} propName The property name assigned value of invalid type.
+     * @param {!(Array<string> | string)} expected The property type(s) expected.
+     * @param {unknown} value The actual property value of invalid type assigned.
      */
-    function InvalidReturnPropertyTypeError(input, name, prop, value) {
+    function InvalidReturnPropertyTypeError(input, funcName, propName, expected, value) {
         var _newTarget = this.constructor;
         var _this = this;
-        var type;
-        if (value && value.constructor && value.constructor.name) {
-            type = "instance of " + value.constructor.name;
+        var msg = "The " + util_text_1.curlyQuote(propName) + " property returned by the " +
+            (util_text_1.curlyQuote(funcName) + " must be ");
+        if (!util_types_1.isArray(expected)) {
+            msg += getCommonInvalidTypeMessage([String(expected)], value);
+            ;
         }
         else {
-            type = "type " + typeof value;
+            msg += getCommonInvalidTypeMessage(__spread(expected), value);
+            ;
         }
-        _this = _super.call(this, "Expected " + util_text_1.curlyQuote(input) + " to be returned for the " +
-            (util_text_1.curlyQuote(prop) + " from the " + util_text_1.curlyQuote(name) + " function, but got ") +
-            ("" + util_text_1.curlyQuote(type))) || this;
+        _this = _super.call(this, msg) || this;
         Object.setPrototypeOf(_this, _newTarget.prototype);
         _this.name = 'InvalidReturnPropertyTypeError';
         _this.code = 'ERR_INVALID_RETURN_PROPERTY_TYPE';
@@ -441,21 +452,25 @@ var InvalidReturnValueError = /** @class */ (function (_super) {
     __extends(InvalidReturnValueError, _super);
     /**
      * @param {string} input The type of the invalid return value.
-     * @param {string} name The name of the function that returned the value.
+     * @param {string} funcName The name of the function returning the invalidity.
      * @param {unknown} value The actual invalid value returned.
      */
-    function InvalidReturnValueError(input, name, value) {
+    function InvalidReturnValueError(input, funcName, value) {
         var _newTarget = this.constructor;
         var _this = this;
         var type;
         if (value && value.constructor && value.constructor.name) {
-            type = "instance of " + value.constructor.name;
+            type = "instance of " + util_text_1.curlyQuote(value.constructor.name);
         }
         else {
-            type = "type " + typeof value;
+            type = "type " + util_text_1.curlyQuote(typeof value);
         }
-        _this = _super.call(this, "Expected a valid " + util_text_1.curlyQuote(input) + " to be returned from the " +
-            (util_text_1.curlyQuote(name) + " function, but got " + util_text_1.curlyQuote(String(value)))) || this;
+        var inspected = util_1.inspect(value).slice(1, -1);
+        if (inspected.length > 128) {
+            inspected = "" + util_text_1.ellipsify(inspected.slice(0, 128));
+        }
+        _this = _super.call(this, "Invalid value returned by the " + util_text_1.curlyQuote(funcName) + " function. " +
+            ("Received " + type + ": " + util_text_1.curlyQuote(inspected))) || this;
         Object.setPrototypeOf(_this, _newTarget.prototype);
         _this.name = 'InvalidReturnValueError';
         _this.code = 'ERR_INVALID_RETURN_VALUE';
@@ -473,22 +488,25 @@ exports.InvalidReturnValueError = InvalidReturnValueError;
 var InvalidReturnTypeError = /** @class */ (function (_super) {
     __extends(InvalidReturnTypeError, _super);
     /**
-     * @param {string} input The type of the value of invalid type returned.
-     * @param {string} name The name of the function that returned the invalidity.
-     * @param {unknown} value The actual value of invalid type returned.
+     * @param {string} input The type of the invalid return value.
+     * @param {string} funcName The name of the function returning the invalidity.
+     * @param {!(Array<string> | string)} expected The return type(s) expected.
+     * @param {unknown} value The actual value of the invalid return value type.
      */
-    function InvalidReturnTypeError(input, name, value) {
+    function InvalidReturnTypeError(input, funcName, expected, value) {
         var _newTarget = this.constructor;
         var _this = this;
-        var type;
-        if (value && value.constructor && value.constructor.name) {
-            type = "instance of " + value.constructor.name;
+        var msg = "The value returned for the " + util_text_1.curlyQuote(funcName) + " function " +
+            "must be ";
+        if (!util_types_1.isArray(expected)) {
+            msg += getCommonInvalidTypeMessage([String(expected)], value);
+            ;
         }
         else {
-            type = "type " + typeof value;
+            msg += getCommonInvalidTypeMessage(__spread(expected), value);
+            ;
         }
-        _this = _super.call(this, "Expected " + util_text_1.curlyQuote(input) + " to be returned from the " +
-            (util_text_1.curlyQuote(name) + " function but got " + util_text_1.curlyQuote(type))) || this;
+        _this = _super.call(this, msg) || this;
         Object.setPrototypeOf(_this, _newTarget.prototype);
         _this.name = 'InvalidReturnTypeError';
         _this.code = 'ERR_INVALID_RETURN_TYPE';

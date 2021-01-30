@@ -29,9 +29,9 @@ export declare class InvalidArgTypeError extends TypeError {
     /**
      * @param {string} argName The name of the argument of invalid type.
      * @param {!(Array<string> | string)} expected The argument type(s) expected.
-     * @param {unknown} actual The actual value of the argument of invalid type.
+     * @param {unknown} value The actual value of the argument of invalid type.
      */
-    constructor(argName: string, expected: (string[] | string), actual: unknown);
+    constructor(argName: string, expected: (string[] | string), value: unknown);
 }
 /**
  * An invalid or unsupported value for an object property.
@@ -39,9 +39,9 @@ export declare class InvalidArgTypeError extends TypeError {
 export declare class InvalidPropertyValueError extends TypeError {
     code: string;
     /**
-     * @param {string} objName The name of the object affected.
+     * @param {string} objName The name of the object in question.
      * @param {string} propName The property name assigned invalid value.
-     * @param {unknown} actual The actual invalid property value.
+     * @param {unknown} value The actual invalid property value assigned.
      */
     constructor(objName: string, propName: string, propValue: unknown);
 }
@@ -51,12 +51,12 @@ export declare class InvalidPropertyValueError extends TypeError {
 export declare class InvalidPropertyTypeError extends TypeError {
     code: string;
     /**
-     * @param {string} objName The name of the object affected.
+     * @param {string} objName The name of the object in question.
      * @param {string} propName The property name assigned value of invalid type.
      * @param {!(Array<string> | string)} expected The property type(s) expected.
-     * @param {unknown} actual The actual property value of invalid type.
+     * @param {unknown} value The actual property value of invalid type assigned.
      */
-    constructor(objName: string, propName: string, expected: (string[] | string), actual: unknown);
+    constructor(objName: string, propName: string, expected: (string[] | string), value: unknown);
 }
 /**
  * The number of arguments passed to a function is invalid.
@@ -66,9 +66,9 @@ export declare class InvalidArgsNumberError extends TypeError {
     /**
      * @param {string} funcName The name of the function in question.
      * @param {number} expected The number of arguments expected to be passed.
-     * @param {number} actual The actual number of arguments passed.
+     * @param {number} value The actual number of arguments passed.
      */
-    constructor(funcName: string, expected: number, actual: number);
+    constructor(funcName: string, expected: number, value: number);
 }
 /**
  * For APIs that accept options objects, some options might be mandatory. This
@@ -91,11 +91,11 @@ export declare class InvalidReturnPropertyValueError extends TypeError {
     code: string;
     /**
      * @param {string} input The type of the invalid value.
-     * @param {string} name The name of the function returning the invalidity.
-     * @param {string} prop The property name assigned the invalid value.
-     * @param {unknown} value The actual invalid property value.
+     * @param {string} funcName The name of the function returning the invalidity.
+     * @param {string} propName The property name assigned the invalid value.
+     * @param {unknown} value The actual invalid property value assigned.
      */
-    constructor(input: string, name: string, prop: string, value: unknown);
+    constructor(input: string, funcName: string, propName: string, value: unknown);
 }
 /**
  * Thrown in case a function option does not provide an expected value type for
@@ -107,11 +107,12 @@ export declare class InvalidReturnPropertyTypeError extends TypeError {
     code: string;
     /**
      * @param {string} input The name of the invalid property value type.
-     * @param {string} name The name of the function returning the invalidity.
-     * @param {string} prop The property name assigned the value of invalid type.
-     * @param {unknown} value The actual value of invalid type assinged.
+     * @param {string} funcName The name of the function returning the invalidity.
+     * @param {string} propName The property name assigned value of invalid type.
+     * @param {!(Array<string> | string)} expected The property type(s) expected.
+     * @param {unknown} value The actual property value of invalid type assigned.
      */
-    constructor(input: string, name: string, prop: string, value: unknown);
+    constructor(input: string, funcName: string, propName: string, expected: (string[] | string), value: unknown);
 }
 /**
  * Thrown in case a function option does not return an expected valid value on
@@ -123,10 +124,10 @@ export declare class InvalidReturnValueError extends TypeError {
     code: string;
     /**
      * @param {string} input The type of the invalid return value.
-     * @param {string} name The name of the function that returned the value.
+     * @param {string} funcName The name of the function returning the invalidity.
      * @param {unknown} value The actual invalid value returned.
      */
-    constructor(input: string, name: string, value: unknown);
+    constructor(input: string, funcName: string, value: unknown);
 }
 /**
  * Thrown in case a function option does not return an expected value type on
@@ -137,11 +138,12 @@ export declare class InvalidReturnValueError extends TypeError {
 export declare class InvalidReturnTypeError extends TypeError {
     code: string;
     /**
-     * @param {string} input The type of the value of invalid type returned.
-     * @param {string} name The name of the function that returned the invalidity.
-     * @param {unknown} value The actual value of invalid type returned.
+     * @param {string} input The type of the invalid return value.
+     * @param {string} funcName The name of the function returning the invalidity.
+     * @param {!(Array<string> | string)} expected The return type(s) expected.
+     * @param {unknown} value The actual value of the invalid return value type.
      */
-    constructor(input: string, name: string, value: unknown);
+    constructor(input: string, funcName: string, expected: (string[] | string), value: unknown);
 }
 /**
  * A required argument of a Node.js API was not passed. This is only used for

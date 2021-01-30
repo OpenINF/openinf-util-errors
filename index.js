@@ -51,13 +51,14 @@ var __spread = (this && this.__spread) || function () {
     return ar;
 };
 exports.__esModule = true;
-exports.UnhandledErrorError = exports.MissingArgsError = exports.InvalidReturnTypeError = exports.InvalidReturnValueError = exports.InvalidReturnPropertyTypeError = exports.InvalidReturnPropertyValueError = exports.MissingOptionError = exports.InvalidArgsNumberError = exports.InvalidPropertyTypeError = exports.InvalidPropertyValueError = exports.InvalidArgTypeError = exports.InvalidArgValueError = void 0;
+exports.UnhandledErrorError = exports.MissingArgsError = exports.MissingOptionError = exports.InvalidArgsNumberError = exports.InvalidReturnTypeError = exports.InvalidReturnValueError = exports.InvalidReturnPropertyTypeError = exports.InvalidReturnPropertyValueError = exports.InvalidPropertyTypeError = exports.InvalidPropertyValueError = exports.InvalidArgTypeError = exports.InvalidArgValueError = void 0;
 // -----------------------------------------------------------------------------
 // Requirements
 // -----------------------------------------------------------------------------
 var assert_1 = require("assert");
 var util_1 = require("util");
 var util_types_1 = require("@openinf/util-types");
+var util_object_1 = require("@openinf/util-object");
 var util_text_1 = require("@openinf/util-text");
 var classRegExp = /^([A-Z][a-z0-9]*)+$/;
 // Sorted by a rough estimate on most frequently used entries.
@@ -76,8 +77,11 @@ var kTypes = [
 // -----------------------------------------------------------------------------
 // Helpers
 // -----------------------------------------------------------------------------
-function getCommonInvalidTypeMessage(expected, actual) {
+function getInvalidTypeSubMsg(expected, actual) {
     var e_1, _a;
+    if (!util_types_1.isArray(expected)) {
+        expected = util_types_1.toArray(expected);
+    }
     var msg = '';
     var types = [];
     var instances = [];
@@ -168,29 +172,38 @@ function getCommonInvalidTypeMessage(expected, actual) {
             msg += "" + other[0];
         }
     }
-    if (actual == null) {
-        msg += ". Received " + util_text_1.curlyQuote(String(actual));
+    msg += getRecievedSubMsg(actual);
+    return msg;
+}
+function getRecievedSubMsg(value) {
+    var msg = '';
+    if (value == null) {
+        msg += ". Received " + util_text_1.curlyQuote(String(value));
     }
-    else if (typeof actual === 'function' && actual.name) {
-        msg += ". Received function " + util_text_1.curlyQuote(actual.name);
+    else if (typeof value === 'function' && util_object_1.hasOwn(value, 'name')) {
+        msg += ". Received function " + util_text_1.curlyQuote(value.name);
     }
-    else if (typeof actual === 'object') {
-        if (actual.constructor && actual.constructor.name) {
-            msg += ". Received an instance of " + util_text_1.curlyQuote(actual.constructor.name);
+    else if (util_types_1.isObject(value)) {
+        if (util_object_1.hasOwn(value, 'constructor') && util_object_1.hasOwn(value.constructor, 'name')) {
+            msg += ". Received an instance of " + util_text_1.curlyQuote(value.constructor.name);
         }
         else {
-            var inspected = util_1.inspect(actual, { depth: -1 }).slice(1, -1);
-            msg += ". Received " + util_text_1.curlyQuote(inspected);
+            var inspected = util_1.inspect(value, { depth: -1, colors: false });
+            msg += ". Received " + util_text_1.curlyQuote(inspected.slice(1, -1));
         }
     }
     else {
-        var inspected = util_1.inspect(actual, { colors: false }).slice(1, -1);
-        if (inspected.length > 25)
-            inspected = "" + util_text_1.ellipsify(inspected.slice(0, 25));
-        msg += ". Received type " + util_text_1.curlyQuote(typeof actual) + " " +
-            ("(" + util_text_1.curlyQuote(inspected) + ")");
+        msg += ". Received type " + util_text_1.curlyQuote(typeof value) + " " +
+            ("(" + getInspectedMaybeCapped(value, 25) + ")");
     }
     return msg;
+}
+function getInspectedMaybeCapped(value, maxLen) {
+    var inspected = util_1.inspect(value, { colors: false }).slice(1, -1);
+    if (inspected.length > maxLen) {
+        inspected = util_text_1.ellipsify(inspected.slice(0, maxLen));
+    }
+    return util_text_1.curlyQuote(inspected);
 }
 // -----------------------------------------------------------------------------
 // Errors
@@ -203,20 +216,19 @@ function getCommonInvalidTypeMessage(expected, actual) {
 var InvalidArgValueError = /** @class */ (function (_super) {
     __extends(InvalidArgValueError, _super);
     /**
-     * @param {string} name The argument name.
-     * @param {unknown} value The argument value.
+     * @param {string} argName The argument name.
+     * @param {unknown} value The actual invalid argument value.
      * @param {string} reason The reason for invalidity.
      */
-    function InvalidArgValueError(name, value, reason) {
+    function InvalidArgValueError(argName, value, reason) {
         var _newTarget = this.constructor;
         if (reason === void 0) { reason = 'is invalid'; }
         var _this = this;
-        var inspected = util_1.inspect(value).slice(1, -1);
-        if (inspected.length > 128) {
-            inspected = "" + util_text_1.ellipsify(inspected.slice(0, 128));
-        }
-        _this = _super.call(this, "The " + util_text_1.curlyQuote(name) + " argument " + reason + ". " +
-            ("Received " + util_text_1.curlyQuote(inspected))) || this;
+        assert_1.strict(typeof argName === 'string', "The " + util_text_1.curlyQuote('argName') + " argument must be of type " +
+            ("" + util_text_1.curlyQuote('string')));
+        assert_1.strict(typeof argName === 'string', "The " + util_text_1.curlyQuote('reason') + " argument must be of type " +
+            ("" + util_text_1.curlyQuote('string')));
+        _this = _super.call(this, "The " + util_text_1.curlyQuote(argName) + " argument " + reason + getRecievedSubMsg(value)) || this;
         Object.setPrototypeOf(_this, _newTarget.prototype);
         _this.name = 'InvalidArgValueError';
         _this.code = 'ERR_INVALID_ARG_VALUE';
@@ -235,23 +247,15 @@ var InvalidArgTypeError = /** @class */ (function (_super) {
     /**
      * @param {string} argName The name of the argument of invalid type.
      * @param {!(Array<string> | string)} expected The argument type(s) expected.
-     * @param {unknown} value The actual value of the argument of invalid type.
+     * @param {unknown} value The actual argument value of invalid type.
      */
     function InvalidArgTypeError(argName, expected, value) {
         var _newTarget = this.constructor;
         var _this = this;
         assert_1.strict(typeof argName === 'string', "The " + util_text_1.curlyQuote('argName') + " argument must be of type " +
             ("" + util_text_1.curlyQuote('string')));
-        var msg = "The " + util_text_1.curlyQuote(argName) + " argument must be ";
-        if (!util_types_1.isArray(expected)) {
-            msg += getCommonInvalidTypeMessage([String(expected)], value);
-            ;
-        }
-        else {
-            msg += getCommonInvalidTypeMessage(__spread(expected), value);
-            ;
-        }
-        _this = _super.call(this, msg) || this;
+        _this = _super.call(this, "The " + util_text_1.curlyQuote(argName) + " argument must be " +
+            getInvalidTypeSubMsg(expected, value)) || this;
         Object.setPrototypeOf(_this, _newTarget.prototype);
         _this.name = 'InvalidArgTypeError';
         _this.code = 'ERR_INVALID_ARG_TYPE';
@@ -270,15 +274,15 @@ var InvalidPropertyValueError = /** @class */ (function (_super) {
      * @param {string} propName The property name assigned invalid value.
      * @param {unknown} value The actual invalid property value assigned.
      */
-    function InvalidPropertyValueError(objName, propName, propValue) {
+    function InvalidPropertyValueError(objName, propName, value) {
         var _newTarget = this.constructor;
         var _this = this;
-        var inspected = util_1.inspect(propValue).slice(1, -1);
-        if (inspected.length > 128) {
-            inspected = "" + util_text_1.ellipsify(inspected.slice(0, 128));
-        }
+        assert_1.strict(typeof objName === 'string', "The " + util_text_1.curlyQuote('objName') + " argument must be of type " +
+            ("" + util_text_1.curlyQuote('string')));
+        assert_1.strict(typeof propName === 'string', "The " + util_text_1.curlyQuote('propName') + " argument must be of type " +
+            ("" + util_text_1.curlyQuote('string')));
         _this = _super.call(this, "Invalid value for property " + util_text_1.curlyQuote(propName) + " of object " +
-            (util_text_1.curlyQuote(objName) + ". Received " + util_text_1.curlyQuote(inspected))) || this;
+            ("" + util_text_1.curlyQuote(objName)) + getRecievedSubMsg(value)) || this;
         Object.setPrototypeOf(_this, _newTarget.prototype);
         _this.name = 'InvalidPropertyValueError';
         _this.code = 'ERR_INVALID_PROPERTY_VALUE';
@@ -305,17 +309,8 @@ var InvalidPropertyTypeError = /** @class */ (function (_super) {
             ("" + util_text_1.curlyQuote('string')));
         assert_1.strict(typeof propName === 'string', "The " + util_text_1.curlyQuote('propName') + " argument must be of type " +
             ("" + util_text_1.curlyQuote('string')));
-        var msg = "The " + util_text_1.curlyQuote(propName) + " property of object " +
-            (util_text_1.curlyQuote(objName) + " must be ");
-        if (!util_types_1.isArray(expected)) {
-            msg += getCommonInvalidTypeMessage([String(expected)], value);
-            ;
-        }
-        else {
-            msg += getCommonInvalidTypeMessage(__spread(expected), value);
-            ;
-        }
-        _this = _super.call(this, msg) || this;
+        _this = _super.call(this, "The " + util_text_1.curlyQuote(propName) + " property of object " +
+            (util_text_1.curlyQuote(objName) + " must be ") + getRecievedSubMsg(value)) || this;
         Object.setPrototypeOf(_this, _newTarget.prototype);
         _this.name = 'InvalidPropertyTypeError';
         _this.code = 'ERR_INVALID_PROPERTY_TYPE';
@@ -324,48 +319,6 @@ var InvalidPropertyTypeError = /** @class */ (function (_super) {
     return InvalidPropertyTypeError;
 }(TypeError));
 exports.InvalidPropertyTypeError = InvalidPropertyTypeError;
-/**
- * The number of arguments passed to a function is invalid.
- */
-var InvalidArgsNumberError = /** @class */ (function (_super) {
-    __extends(InvalidArgsNumberError, _super);
-    /**
-     * @param {string} funcName The name of the function in question.
-     * @param {number} expected The number of arguments expected to be passed.
-     * @param {number} value The actual number of arguments passed.
-     */
-    function InvalidArgsNumberError(funcName, expected, value) {
-        var _newTarget = this.constructor;
-        var _this = _super.call(this, "The number of arguments expected by function " +
-            (util_text_1.curlyQuote(funcName) + " is " + expected + ", but " + value + " were passed")) || this;
-        Object.setPrototypeOf(_this, _newTarget.prototype);
-        _this.name = 'InvalidArgsNumberError';
-        _this.code = 'ERR_INVALID_ARGS_NUMBER';
-        return _this;
-    }
-    return InvalidArgsNumberError;
-}(TypeError));
-exports.InvalidArgsNumberError = InvalidArgsNumberError;
-/**
- * For APIs that accept options objects, some options might be mandatory. This
- * error is thrown if a required option is missing.
- * @see https://nodejs.org/api/errors.html#ERR_MISSING_OPTION
- * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1294
- */
-var MissingOptionError = /** @class */ (function (_super) {
-    __extends(MissingOptionError, _super);
-    /** @param {string} optName The missing option name. */
-    function MissingOptionError(optName) {
-        var _newTarget = this.constructor;
-        var _this = _super.call(this, util_text_1.curlyQuote(optName) + " is a missing option that is required") || this;
-        Object.setPrototypeOf(_this, _newTarget.prototype);
-        _this.name = 'MissingOptionError';
-        _this.code = 'ERR_MISSING_OPTION';
-        return _this;
-    }
-    return MissingOptionError;
-}(TypeError));
-exports.MissingOptionError = MissingOptionError;
 /**
  * Thrown in case a function option does not provide a valid value for one of
  * its returned object properties on execution.
@@ -383,20 +336,15 @@ var InvalidReturnPropertyValueError = /** @class */ (function (_super) {
     function InvalidReturnPropertyValueError(input, funcName, propName, value) {
         var _newTarget = this.constructor;
         var _this = this;
-        var type;
-        if (value && value.constructor && value.constructor.name) {
-            type = "instance of " + util_text_1.curlyQuote(value.constructor.name);
-        }
-        else {
-            type = "type " + util_text_1.curlyQuote(typeof value);
-        }
-        var inspected = util_1.inspect(propName).slice(1, -1);
-        if (inspected.length > 128) {
-            inspected = "" + util_text_1.ellipsify(inspected.slice(0, 128));
-        }
-        _this = _super.call(this, "Invalid value for property " + util_text_1.curlyQuote(propName) + " of object " +
-            ("returned by the " + util_text_1.curlyQuote(funcName) + " function. Received ") +
-            (type + ": " + util_text_1.curlyQuote(inspected))) || this;
+        assert_1.strict(typeof input === 'string', "The " + util_text_1.curlyQuote('input') + " argument must be of type " +
+            ("" + util_text_1.curlyQuote('string')));
+        assert_1.strict(typeof funcName === 'string', "The " + util_text_1.curlyQuote('funcName') + " argument must be of type " +
+            ("" + util_text_1.curlyQuote('string')));
+        assert_1.strict(typeof propName === 'string', "The " + util_text_1.curlyQuote('propName') + " argument must be of type " +
+            ("" + util_text_1.curlyQuote('string')));
+        _this = _super.call(this, "Invalid " + input + " value for property " + util_text_1.curlyQuote(propName) + " " +
+            ("returned by the " + util_text_1.curlyQuote(funcName) + " function") +
+            getRecievedSubMsg(value)) || this;
         Object.setPrototypeOf(_this, _newTarget.prototype);
         _this.name = 'InvalidReturnPropertyValueError';
         _this.code = 'ERR_INVALID_RETURN_PROPERTY_VALUE';
@@ -414,26 +362,21 @@ exports.InvalidReturnPropertyValueError = InvalidReturnPropertyValueError;
 var InvalidReturnPropertyTypeError = /** @class */ (function (_super) {
     __extends(InvalidReturnPropertyTypeError, _super);
     /**
-     * @param {string} input The name of the invalid property value type.
      * @param {string} funcName The name of the function returning the invalidity.
      * @param {string} propName The property name assigned value of invalid type.
      * @param {!(Array<string> | string)} expected The property type(s) expected.
      * @param {unknown} value The actual property value of invalid type assigned.
      */
-    function InvalidReturnPropertyTypeError(input, funcName, propName, expected, value) {
+    function InvalidReturnPropertyTypeError(funcName, propName, expected, value) {
         var _newTarget = this.constructor;
         var _this = this;
-        var msg = "The " + util_text_1.curlyQuote(propName) + " property returned by the " +
-            (util_text_1.curlyQuote(funcName) + " must be ");
-        if (!util_types_1.isArray(expected)) {
-            msg += getCommonInvalidTypeMessage([String(expected)], value);
-            ;
-        }
-        else {
-            msg += getCommonInvalidTypeMessage(__spread(expected), value);
-            ;
-        }
-        _this = _super.call(this, msg) || this;
+        assert_1.strict(typeof funcName === 'string', "The " + util_text_1.curlyQuote('funcName') + " argument must be of type " +
+            ("" + util_text_1.curlyQuote('string')));
+        assert_1.strict(typeof propName === 'string', "The " + util_text_1.curlyQuote('propName') + " argument must be of type " +
+            ("" + util_text_1.curlyQuote('string')));
+        _this = _super.call(this, "The " + util_text_1.curlyQuote(propName) + " property returned by the " +
+            (util_text_1.curlyQuote(funcName) + " function must be ") +
+            getInvalidTypeSubMsg(expected, value)) || this;
         Object.setPrototypeOf(_this, _newTarget.prototype);
         _this.name = 'InvalidReturnPropertyTypeError';
         _this.code = 'ERR_INVALID_RETURN_PROPERTY_TYPE';
@@ -458,19 +401,12 @@ var InvalidReturnValueError = /** @class */ (function (_super) {
     function InvalidReturnValueError(input, funcName, value) {
         var _newTarget = this.constructor;
         var _this = this;
-        var type;
-        if (value && value.constructor && value.constructor.name) {
-            type = "instance of " + util_text_1.curlyQuote(value.constructor.name);
-        }
-        else {
-            type = "type " + util_text_1.curlyQuote(typeof value);
-        }
-        var inspected = util_1.inspect(value).slice(1, -1);
-        if (inspected.length > 128) {
-            inspected = "" + util_text_1.ellipsify(inspected.slice(0, 128));
-        }
-        _this = _super.call(this, "Invalid value returned by the " + util_text_1.curlyQuote(funcName) + " function. " +
-            ("Received " + type + ": " + util_text_1.curlyQuote(inspected))) || this;
+        assert_1.strict(typeof input === 'string', "The " + util_text_1.curlyQuote('input') + " argument must be of type " +
+            ("" + util_text_1.curlyQuote('string')));
+        assert_1.strict(typeof funcName === 'string', "The " + util_text_1.curlyQuote('funcName') + " argument must be of type " +
+            ("" + util_text_1.curlyQuote('string')));
+        _this = _super.call(this, "Invalid " + input + " value returned by the " + util_text_1.curlyQuote(funcName) + " " +
+            "function" + getRecievedSubMsg(value)) || this;
         Object.setPrototypeOf(_this, _newTarget.prototype);
         _this.name = 'InvalidReturnValueError';
         _this.code = 'ERR_INVALID_RETURN_VALUE';
@@ -491,22 +427,17 @@ var InvalidReturnTypeError = /** @class */ (function (_super) {
      * @param {string} input The type of the invalid return value.
      * @param {string} funcName The name of the function returning the invalidity.
      * @param {!(Array<string> | string)} expected The return type(s) expected.
-     * @param {unknown} value The actual value of the invalid return value type.
+     * @param {unknown} value The actual value of invalid type returned.
      */
     function InvalidReturnTypeError(input, funcName, expected, value) {
         var _newTarget = this.constructor;
         var _this = this;
-        var msg = "The value returned for the " + util_text_1.curlyQuote(funcName) + " function " +
-            "must be ";
-        if (!util_types_1.isArray(expected)) {
-            msg += getCommonInvalidTypeMessage([String(expected)], value);
-            ;
-        }
-        else {
-            msg += getCommonInvalidTypeMessage(__spread(expected), value);
-            ;
-        }
-        _this = _super.call(this, msg) || this;
+        assert_1.strict(typeof input === 'string', "The " + util_text_1.curlyQuote('input') + " argument must be of type " +
+            ("" + util_text_1.curlyQuote('string')));
+        assert_1.strict(typeof funcName === 'string', "The " + util_text_1.curlyQuote('funcName') + " argument must be of type " +
+            ("" + util_text_1.curlyQuote('string')));
+        _this = _super.call(this, "The value returned for the " + util_text_1.curlyQuote(funcName) + " function " +
+            ("must be " + getInvalidTypeSubMsg([String(expected)], value))) || this;
         Object.setPrototypeOf(_this, _newTarget.prototype);
         _this.name = 'InvalidReturnTypeError';
         _this.code = 'ERR_INVALID_RETURN_TYPE';
@@ -515,6 +446,58 @@ var InvalidReturnTypeError = /** @class */ (function (_super) {
     return InvalidReturnTypeError;
 }(TypeError));
 exports.InvalidReturnTypeError = InvalidReturnTypeError;
+/**
+ * The number of arguments passed to a function is invalid.
+ */
+var InvalidArgsNumberError = /** @class */ (function (_super) {
+    __extends(InvalidArgsNumberError, _super);
+    /**
+     * @param {string} funcName The name of the function in question.
+     * @param {number} expected The number of arguments expected to be passed.
+     * @param {number} value The actual number of arguments passed.
+     */
+    function InvalidArgsNumberError(funcName, expected, value) {
+        var _newTarget = this.constructor;
+        var _this = this;
+        assert_1.strict(typeof funcName === 'string', "The " + util_text_1.curlyQuote('funcName') + " argument must be of type " +
+            ("" + util_text_1.curlyQuote('string')));
+        assert_1.strict(typeof expected === 'number', "The " + util_text_1.curlyQuote('expected') + " argument must be of type " +
+            ("" + util_text_1.curlyQuote('number')));
+        assert_1.strict(typeof value === 'number', "The " + util_text_1.curlyQuote('value') + " argument must be of type " +
+            ("" + util_text_1.curlyQuote('number')));
+        _this = _super.call(this, "The number of arguments expected by function " +
+            (util_text_1.curlyQuote(funcName) + " is " + expected + ", but " + value + " were passed")) || this;
+        Object.setPrototypeOf(_this, _newTarget.prototype);
+        _this.name = 'InvalidArgsNumberError';
+        _this.code = 'ERR_INVALID_ARGS_NUMBER';
+        return _this;
+    }
+    return InvalidArgsNumberError;
+}(TypeError));
+exports.InvalidArgsNumberError = InvalidArgsNumberError;
+/**
+ * For APIs that accept options objects, some options might be mandatory. This
+ * error is thrown if a required option is missing.
+ * @see https://nodejs.org/api/errors.html#ERR_MISSING_OPTION
+ * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1294
+ */
+var MissingOptionError = /** @class */ (function (_super) {
+    __extends(MissingOptionError, _super);
+    /** @param {string} optName The missing option name. */
+    function MissingOptionError(optName) {
+        var _newTarget = this.constructor;
+        var _this = this;
+        assert_1.strict(typeof optName === 'string', "The " + util_text_1.curlyQuote('optName') + " argument must be of type " +
+            ("" + util_text_1.curlyQuote('string')));
+        _this = _super.call(this, util_text_1.curlyQuote(optName) + " is a missing option that is required") || this;
+        Object.setPrototypeOf(_this, _newTarget.prototype);
+        _this.name = 'MissingOptionError';
+        _this.code = 'ERR_MISSING_OPTION';
+        return _this;
+    }
+    return MissingOptionError;
+}(TypeError));
+exports.MissingOptionError = MissingOptionError;
 /**
  * A required argument of a Node.js API was not passed. This is only used for
  * strict compliance with the API specification (which in some cases may accept

@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/openinf/util-errors#readme",
   "dependencies": {
+    "@openinf/util-object": "^1.2.0",
     "@openinf/util-text": "^1.0.0",
     "@openinf/util-types": "^1.2.0"
   },

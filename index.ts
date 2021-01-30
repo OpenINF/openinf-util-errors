@@ -12,7 +12,8 @@
 
 import { strict as assert } from 'assert';
 import { inspect as utilInspect } from 'util';
-import { isArray } from '@openinf/util-types';
+import { isArray, isObject, toArray } from '@openinf/util-types';
+import { hasOwn } from '@openinf/util-object';
 import { curlyQuote, ellipsify } from '@openinf/util-text';
 
 const classRegExp = /^([A-Z][a-z0-9]*)+$/;
@@ -34,8 +35,10 @@ const kTypes = [
 // Helpers
 // -----------------------------------------------------------------------------
 
-function getCommonInvalidTypeMessage(expected:string[],
+function getInvalidTypeSubMsg(expected:(string | string[]),
   actual:unknown):string {
+  if (!isArray(expected)) { expected = toArray(expected); }
+
   let msg = '';
   let types = [];
   let instances = [];
@@ -117,27 +120,39 @@ function getCommonInvalidTypeMessage(expected:string[],
     }
   }
 
-  if (actual == null) {
-    msg += `. Received ${curlyQuote(String(actual))}`;
-  } else if (typeof actual === 'function' && actual.name) {
-    msg += `. Received function ${curlyQuote(actual.name)}`;
-  } else if (typeof actual === 'object') {
-    if (actual.constructor && actual.constructor.name) {
+  msg += getRecievedSubMsg(actual);
+
+  return msg;
+}
+
+function getRecievedSubMsg(value:unknown) {
+  let msg = '';
+  if (value == null) {
+    msg += `. Received ${curlyQuote(String(value))}`;
+  } else if (typeof value === 'function' && hasOwn(value, 'name')) {
+    msg += `. Received function ${curlyQuote(value.name)}`;
+  } else if (isObject(value)) {
+    if (hasOwn(value, 'constructor') && hasOwn(value.constructor, 'name')) {
       msg += `. Received an instance of ${
-        curlyQuote(actual.constructor.name)
+        curlyQuote(value.constructor.name)
       }`;
     } else {
-      const inspected = utilInspect(actual, { depth: -1 }).slice(1, -1);
-      msg += `. Received ${curlyQuote(inspected)}`;
+      const inspected = utilInspect(value, { depth: -1, colors: false });
+      msg += `. Received ${curlyQuote(inspected.slice(1, -1))}`;
     }
   } else {
-    let inspected = utilInspect(actual, { colors: false }).slice(1, -1);
-    if (inspected.length > 25)
-      inspected = `${ellipsify(inspected.slice(0, 25))}`;
-    msg += `. Received type ${curlyQuote(typeof actual)} ` +
-      `(${curlyQuote(inspected)})`;
+    msg += `. Received type ${curlyQuote(typeof value)} ` +
+      `(${getInspectedMaybeCapped(value, 25)})`;
   }
   return msg;
+}
+
+function getInspectedMaybeCapped(value, maxLen) {
+  let inspected = utilInspect(value, { colors: false }).slice(1, -1);
+  if (inspected.length > maxLen) {
+    inspected = ellipsify(inspected.slice(0, maxLen));
+  }
+  return curlyQuote(inspected);
 }
 
 // -----------------------------------------------------------------------------
@@ -153,18 +168,19 @@ export class InvalidArgValueError extends TypeError {
   code!: string;
 
   /**
-   * @param {string} name The argument name.
-   * @param {unknown} value The argument value.
+   * @param {string} argName The argument name.
+   * @param {unknown} value The actual invalid argument value.
    * @param {string} reason The reason for invalidity.
    */
-  constructor(name:string, value:unknown, reason:string = 'is invalid') {
-    let inspected = utilInspect(value).slice(1, -1);
-    if (inspected.length > 128) {
-      inspected = `${ellipsify(inspected.slice(0, 128))}`;
-    }
+  constructor(argName:string, value:unknown, reason:string = 'is invalid') {
+    assert(typeof argName === 'string',
+      `The ${curlyQuote('argName')} argument must be of type ` +
+        `${curlyQuote('string')}`);
+    assert(typeof argName === 'string',
+      `The ${curlyQuote('reason')} argument must be of type ` +
+        `${curlyQuote('string')}`);
     super(
-      `The ${curlyQuote(name)} argument ${reason}. ` +
-        `Received ${curlyQuote(inspected)}`
+      `The ${curlyQuote(argName)} argument ${reason}` + getRecievedSubMsg(value)
     );
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = 'InvalidArgValueError';
@@ -183,22 +199,14 @@ export class InvalidArgTypeError extends TypeError {
   /**
    * @param {string} argName The name of the argument of invalid type.
    * @param {!(Array<string> | string)} expected The argument type(s) expected.
-   * @param {unknown} value The actual value of the argument of invalid type.
+   * @param {unknown} value The actual argument value of invalid type.
    */
   constructor(argName:string, expected:(string[] | string), value:unknown) {
     assert(typeof argName === 'string',
       `The ${curlyQuote('argName')} argument must be of type ` +
         `${curlyQuote('string')}`);
-
-    let msg = `The ${curlyQuote(argName)} argument must be `;
-
-    if (!isArray(expected)) {
-      msg += getCommonInvalidTypeMessage([String(expected)], value); ;
-    } else {
-      msg += getCommonInvalidTypeMessage([ ...expected ], value); ;
-    }
-
-    super(msg);
+    super(`The ${curlyQuote(argName)} argument must be ` +
+      getInvalidTypeSubMsg(expected, value));
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = 'InvalidArgTypeError';
     this.code = 'ERR_INVALID_ARG_TYPE';
@@ -216,17 +224,17 @@ export class InvalidPropertyValueError extends TypeError {
    * @param {string} propName The property name assigned invalid value.
    * @param {unknown} value The actual invalid property value assigned.
    */
-  constructor(objName:string, propName:string, propValue:unknown) {
-    let inspected = utilInspect(propValue).slice(1, -1);
-    if (inspected.length > 128) {
-      inspected = `${ellipsify(inspected.slice(0, 128))}`;
-    }
-
+  constructor(objName:string, propName:string, value:unknown) {
+    assert(typeof objName === 'string',
+    `The ${curlyQuote('objName')} argument must be of type ` +
+      `${curlyQuote('string')}`);
+    assert(typeof propName === 'string',
+    `The ${curlyQuote('propName')} argument must be of type ` +
+      `${curlyQuote('string')}`);
     super(
       `Invalid value for property ${curlyQuote(propName)} of object ` +
-        `${curlyQuote(objName)}. Received ${curlyQuote(inspected)}`
+        `${curlyQuote(objName)}` + getRecievedSubMsg(value)
     );
-
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = 'InvalidPropertyValueError';
     this.code = 'ERR_INVALID_PROPERTY_VALUE';
@@ -250,61 +258,14 @@ export class InvalidPropertyTypeError extends TypeError {
     assert(typeof objName === 'string',
       `The ${curlyQuote('objName')} argument must be of type ` +
         `${curlyQuote('string')}`);
-
     assert(typeof propName === 'string',
       `The ${curlyQuote('propName')} argument must be of type ` +
         `${curlyQuote('string')}`);
-
-    let msg = `The ${curlyQuote(propName)} property of object ` +
-      `${curlyQuote(objName)} must be `;
-
-    if (!isArray(expected)) {
-      msg += getCommonInvalidTypeMessage([String(expected)], value); ;
-    } else {
-      msg += getCommonInvalidTypeMessage([ ...expected ], value); ;
-    }
-
-    super(msg);
+    super(`The ${curlyQuote(propName)} property of object ` +
+      `${curlyQuote(objName)} must be ` + getRecievedSubMsg(value));
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = 'InvalidPropertyTypeError';
     this.code = 'ERR_INVALID_PROPERTY_TYPE';
-  }
-}
-
-/**
- * The number of arguments passed to a function is invalid.
- */
-export class InvalidArgsNumberError extends TypeError {
-  code!: string;
-
-  /**
-   * @param {string} funcName The name of the function in question.
-   * @param {number} expected The number of arguments expected to be passed.
-   * @param {number} value The actual number of arguments passed.
-   */
-  constructor(funcName:string, expected:number, value:number) {
-    super(`The number of arguments expected by function ` +
-      `${curlyQuote(funcName)} is ${expected}, but ${value} were passed`);
-    Object.setPrototypeOf(this, new.target.prototype);
-    this.name = 'InvalidArgsNumberError';
-    this.code = 'ERR_INVALID_ARGS_NUMBER';
-  }
-}
-
-/**
- * For APIs that accept options objects, some options might be mandatory. This
- * error is thrown if a required option is missing.
- * @see https://nodejs.org/api/errors.html#ERR_MISSING_OPTION
- * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1294
- */
-export class MissingOptionError extends TypeError {
-  code!: string;
-  /** @param {string} optName The missing option name. */
-  constructor(optName:string) {
-    super(`${curlyQuote(optName)} is a missing option that is required`);
-    Object.setPrototypeOf(this, new.target.prototype);
-    this.name = 'MissingOptionError';
-    this.code = 'ERR_MISSING_OPTION';
   }
 }
 
@@ -324,24 +285,18 @@ export class InvalidReturnPropertyValueError extends TypeError {
    * @param {unknown} value The actual invalid property value assigned.
    */
   constructor(input:string, funcName:string, propName:string, value:unknown) {
-    let type;
-    if (value && value.constructor && value.constructor.name) {
-      type = `instance of ${curlyQuote(value.constructor.name)}`;
-    } else {
-      type = `type ${curlyQuote(typeof value)}`;
-    }
-
-    let inspected = utilInspect(propName).slice(1, -1);
-    if (inspected.length > 128) {
-      inspected = `${ellipsify(inspected.slice(0, 128))}`;
-    }
-
-    super(
-      `Invalid value for property ${curlyQuote(propName)} of object ` +
-      `returned by the ${curlyQuote(funcName)} function. Received ` +
-      `${type}: ${curlyQuote(inspected)}`
-    );
-
+    assert(typeof input === 'string',
+      `The ${curlyQuote('input')} argument must be of type ` +
+        `${curlyQuote('string')}`);
+    assert(typeof funcName === 'string',
+      `The ${curlyQuote('funcName')} argument must be of type ` +
+        `${curlyQuote('string')}`);
+    assert(typeof propName === 'string',
+      `The ${curlyQuote('propName')} argument must be of type ` +
+        `${curlyQuote('string')}`);
+    super(`Invalid ${input} value for property ${curlyQuote(propName)} ` +
+      `returned by the ${curlyQuote(funcName)} function` +
+        getRecievedSubMsg(value));
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = 'InvalidReturnPropertyValueError';
     this.code = 'ERR_INVALID_RETURN_PROPERTY_VALUE';
@@ -358,24 +313,22 @@ export class InvalidReturnPropertyTypeError extends TypeError {
   code!: string;
 
   /**
-   * @param {string} input The name of the invalid property value type.
    * @param {string} funcName The name of the function returning the invalidity.
    * @param {string} propName The property name assigned value of invalid type.
    * @param {!(Array<string> | string)} expected The property type(s) expected.
    * @param {unknown} value The actual property value of invalid type assigned.
    */
-  constructor(input:string, funcName:string, propName:string,
-    expected:(string[] | string), value:unknown) {
-    let msg = `The ${curlyQuote(propName)} property returned by the ` +
-      `${curlyQuote(funcName)} must be `;
-
-    if (!isArray(expected)) {
-      msg += getCommonInvalidTypeMessage([String(expected)], value); ;
-    } else {
-      msg += getCommonInvalidTypeMessage([...expected], value); ;
-    }
-
-    super(msg);
+  constructor(funcName:string, propName:string, expected:(string[] | string),
+    value:unknown) {
+    assert(typeof funcName === 'string',
+      `The ${curlyQuote('funcName')} argument must be of type ` +
+        `${curlyQuote('string')}`);
+    assert(typeof propName === 'string',
+      `The ${curlyQuote('propName')} argument must be of type ` +
+        `${curlyQuote('string')}`);
+    super(`The ${curlyQuote(propName)} property returned by the ` +
+      `${curlyQuote(funcName)} function must be ` +
+        getInvalidTypeSubMsg(expected, value));
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = 'InvalidReturnPropertyTypeError';
     this.code = 'ERR_INVALID_RETURN_PROPERTY_TYPE';
@@ -397,24 +350,14 @@ export class InvalidReturnValueError extends TypeError {
    * @param {unknown} value The actual invalid value returned.
    */
   constructor(input:string, funcName:string, value:unknown) {
-    let type;
-    if (value && value.constructor && value.constructor.name) {
-      type = `instance of ${curlyQuote(value.constructor.name)}`;
-    } else {
-      type = `type ${curlyQuote(typeof value)}`;
-    }
-
-    let inspected = utilInspect(value).slice(1, -1);
-    if (inspected.length > 128) {
-      inspected = `${ellipsify(inspected.slice(0, 128))}`;
-    }
-
-    super(
-      `Invalid value returned by the ${curlyQuote(funcName)} function. ` +
-      `Received ${type}: ${curlyQuote(inspected)}`
-    );
-
-
+    assert(typeof input === 'string',
+      `The ${curlyQuote('input')} argument must be of type ` +
+        `${curlyQuote('string')}`);
+    assert(typeof funcName === 'string',
+      `The ${curlyQuote('funcName')} argument must be of type ` +
+        `${curlyQuote('string')}`);
+    super(`Invalid ${input} value returned by the ${curlyQuote(funcName)} ` +
+      `function` + getRecievedSubMsg(value));
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = 'InvalidReturnValueError';
     this.code = 'ERR_INVALID_RETURN_VALUE';
@@ -434,23 +377,70 @@ export class InvalidReturnTypeError extends TypeError {
    * @param {string} input The type of the invalid return value.
    * @param {string} funcName The name of the function returning the invalidity.
    * @param {!(Array<string> | string)} expected The return type(s) expected.
-   * @param {unknown} value The actual value of the invalid return value type.
+   * @param {unknown} value The actual value of invalid type returned.
    */
   constructor(input:string, funcName:string, expected: (string[] | string),
     value:unknown) {
-    let msg = `The value returned for the ${curlyQuote(funcName)} function ` +
-      `must be `;
-
-    if (!isArray(expected)) {
-      msg += getCommonInvalidTypeMessage([String(expected)], value); ;
-    } else {
-      msg += getCommonInvalidTypeMessage([ ...expected ], value); ;
-    }
-
-    super(msg);
+    assert(typeof input === 'string',
+      `The ${curlyQuote('input')} argument must be of type ` +
+        `${curlyQuote('string')}`);
+    assert(typeof funcName === 'string',
+      `The ${curlyQuote('funcName')} argument must be of type ` +
+        `${curlyQuote('string')}`);
+    super(`The value returned for the ${curlyQuote(funcName)} function ` +
+      `must be ${getInvalidTypeSubMsg([String(expected)], value)}`);
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = 'InvalidReturnTypeError';
     this.code = 'ERR_INVALID_RETURN_TYPE';
+  }
+}
+
+/**
+ * The number of arguments passed to a function is invalid.
+ */
+export class InvalidArgsNumberError extends TypeError {
+  code!: string;
+
+  /**
+   * @param {string} funcName The name of the function in question.
+   * @param {number} expected The number of arguments expected to be passed.
+   * @param {number} value The actual number of arguments passed.
+   */
+  constructor(funcName:string, expected:number, value:number) {
+    assert(typeof funcName === 'string',
+      `The ${curlyQuote('funcName')} argument must be of type ` +
+        `${curlyQuote('string')}`);
+    assert(typeof expected === 'number',
+      `The ${curlyQuote('expected')} argument must be of type ` +
+        `${curlyQuote('number')}`);
+    assert(typeof value === 'number',
+      `The ${curlyQuote('value')} argument must be of type ` +
+        `${curlyQuote('number')}`);
+    super(`The number of arguments expected by function ` +
+      `${curlyQuote(funcName)} is ${expected}, but ${value} were passed`);
+    Object.setPrototypeOf(this, new.target.prototype);
+    this.name = 'InvalidArgsNumberError';
+    this.code = 'ERR_INVALID_ARGS_NUMBER';
+  }
+}
+
+/**
+ * For APIs that accept options objects, some options might be mandatory. This
+ * error is thrown if a required option is missing.
+ * @see https://nodejs.org/api/errors.html#ERR_MISSING_OPTION
+ * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1294
+ */
+export class MissingOptionError extends TypeError {
+  code!: string;
+  /** @param {string} optName The missing option name. */
+  constructor(optName:string) {
+    assert(typeof optName === 'string',
+      `The ${curlyQuote('optName')} argument must be of type ` +
+        `${curlyQuote('string')}`);
+    super(`${curlyQuote(optName)} is a missing option that is required`);
+    Object.setPrototypeOf(this, new.target.prototype);
+    this.name = 'MissingOptionError';
+    this.code = 'ERR_MISSING_OPTION';
   }
 }
 

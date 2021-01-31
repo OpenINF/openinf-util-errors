@@ -35,7 +35,7 @@ const kTypes = [
 // -----------------------------------------------------------------------------
 function getInvalidTypeSubMsg(expected, actual) {
     if (!util_types_1.isArray(expected)) {
-        expected = util_types_1.toArray(expected);
+        expected = [String(expected)];
     }
     let msg = '';
     let types = [];

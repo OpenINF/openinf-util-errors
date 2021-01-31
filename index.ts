@@ -37,12 +37,12 @@ const kTypes = [
 
 function getInvalidTypeSubMsg(expected:(string | string[]),
   actual:unknown):string {
-  if (!isArray(expected)) { expected = toArray(expected); }
+  if (!isArray(expected)) { expected = [String(expected)]; }
 
   let msg = '';
-  let types:string[] = [];
-  let instances:string[] = [];
-  let other:string[] = [];
+  let types = [];
+  let instances = [];
+  let other = [];
 
   for (const value of expected) {
     assert(typeof value === 'string',

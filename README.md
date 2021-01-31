@@ -366,14 +366,4 @@ event is emitted by an EventEmitter without an 'error' handler registered).
 
 <br />
 
-## License
-
-[MIT](LICENSE)
-
-<br />
-
----
-
-<br />
-
 &copy; OpenINF

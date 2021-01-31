@@ -52,9 +52,9 @@ function getLogger(logger, opts) {
   return new logger(opts);
 }
 
-const infLog = getLogger(infLog, infLog.defaultOpts);
+const log = getLogger(infLog, infLog.defaultOpts);
 
-infLog.info('Hello, World!');
+log.info('Hello, World!');
 ```
 
 **Note:** The example above does not demonstrate how to properly handle this error
@@ -368,7 +368,7 @@ event is emitted by an EventEmitter without an 'error' handler registered).
 
 ## License
 
-[MIT](LICENSE.md)
+[MIT](LICENSE)
 
 <br />
 

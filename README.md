@@ -24,6 +24,52 @@ welcome._
 
 <br />
 
+## Installation
+
+`@openinf/util-errors` runs on Node.js and is available via `npm`.
+
+```shell
+npm install @openinf/util-errors
+```
+
+## Usage
+
+To get started using the error classes provided by `@openinf/util-errors`, all
+that needs to be done is either import/require (depending on the module format)
+the default export of the module or destructure the individual named error
+classes exported.
+
+```ts
+import { hasOwn } from '@openinf/util-object';
+import { MissingOptionError } from '@openinf/util-errors';
+import infLog from '@openinf/inf-log';
+
+function getLogger(logger, opts) {
+  if (!hasOwn(opts, 'scope')) {
+    throw new MissingOptionError('scope');
+  }
+
+  return new logger(opts);
+}
+
+const infLog = getLogger(infLog, infLog.defaultOpts);
+
+infLog.info('Hello, World!');
+```
+
+**Note:** The example above does not demonstrate how to properly handle this error
+  once thrown and would likely result in an uncaught exception.
+
+**Note:** If you are in an environment where the CommonJS module loader
+  (`require()`) is available, destructuring the individual error classes works
+  just as well.
+
+<br />
+
+---
+
+<br />
+
 ## Classes
 
 <dl>
@@ -275,7 +321,7 @@ error is thrown if a required option is missing.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| optName | <code>string</code> | The missing option name. |
+| optName | <code>string</code> | The name of the missing option. |
 
 <a name="MissingArgsError"></a>
 
@@ -299,7 +345,7 @@ Node.js APIs, `func(undefined)` and `func()` are treated identically, and the
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ...args | <code>Array.&lt;string&gt;</code> | The missing argument names. |
+| ...args | <code>Array.&lt;string&gt;</code> | The names of the missing arguments. |
 
 <a name="UnhandledErrorError"></a>
 
@@ -314,6 +360,20 @@ event is emitted by an EventEmitter without an 'error' handler registered).
 - https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1454-L1461
 
 
+<br />
+
 ---
+
+<br />
+
+## License
+
+[MIT](LICENSE.md)
+
+<br />
+
+---
+
+<br />
 
 &copy; OpenINF

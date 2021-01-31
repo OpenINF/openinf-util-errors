@@ -1,6 +1,6 @@
 <h1 align="center">@openinf/util-errors</h1>
 
-<center><em>Essential utility errors inspired by Node.js core error codes</em></center>
+<p align="center">Essential utility errors inspired by Node.js core error codes</p>
 
 <br />
 

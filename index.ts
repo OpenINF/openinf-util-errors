@@ -13,7 +13,7 @@
 import { strict as assert } from 'assert';
 import { inspect as utilInspect } from 'util';
 import { isArray, isObject, toArray } from '@openinf/util-types';
-import { ownProperty, hasOwn, dict, map } from '@openinf/util-object';
+import { ownProperty, hasOwn, map } from '@openinf/util-object';
 import { curlyQuote, ellipsify } from '@openinf/util-text';
 
 const classRegExp = /^([A-Z][a-z0-9]*)+$/;
@@ -40,9 +40,9 @@ function getInvalidTypeSubMsg(expected:(string | string[]),
   if (!isArray(expected)) { expected = toArray(expected); }
 
   let msg = '';
-  let types:string[] = dict({});
-  let instances:string[] = dict({});
-  let other:string[] = dict({});
+  let types:string[] = [];
+  let instances:string[] = [];
+  let other:string[] = [];
 
   for (const value of expected) {
     assert(typeof value === 'string',

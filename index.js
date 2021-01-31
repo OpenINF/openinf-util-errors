@@ -38,9 +38,9 @@ function getInvalidTypeSubMsg(expected, actual) {
         expected = util_types_1.toArray(expected);
     }
     let msg = '';
-    let types = util_object_1.dict({});
-    let instances = util_object_1.dict({});
-    let other = util_object_1.dict({});
+    let types = [];
+    let instances = [];
+    let other = [];
     for (const value of expected) {
         assert_1.strict(typeof value === 'string', `All expected entries have to be of type ` +
             `${util_text_1.curlyQuote('string')}`);

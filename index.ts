@@ -426,7 +426,7 @@ export class InvalidArgsNumberError extends TypeError {
  */
 export class MissingOptionError extends TypeError {
   code!: string;
-  /** @param {string} optName The missing option name. */
+  /** @param {string} optName The name of the missing option. */
   constructor(optName:string) {
     assert(typeof optName === 'string',
       `The ${curlyQuote('optName')} argument must be of type ` +
@@ -452,7 +452,7 @@ export class MissingOptionError extends TypeError {
 export class MissingArgsError extends TypeError {
   code!: string;
 
-  /** @param {Array<string>} args The missing argument names. */
+  /** @param {Array<string>} args The names of the missing arguments. */
   constructor(...args: string[]) {
     assert(args.length > 0, 'At least one argument needs to be specified');
     let msg = 'The ';

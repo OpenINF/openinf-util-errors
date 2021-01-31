@@ -376,7 +376,7 @@ exports.InvalidArgsNumberError = InvalidArgsNumberError;
  * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1294
  */
 class MissingOptionError extends TypeError {
-    /** @param {string} optName The missing option name. */
+    /** @param {string} optName The name of the missing option. */
     constructor(optName) {
         assert_1.strict(typeof optName === 'string', `The ${util_text_1.curlyQuote('optName')} argument must be of type ` +
             `${util_text_1.curlyQuote('string')}`);
@@ -399,7 +399,7 @@ exports.MissingOptionError = MissingOptionError;
  * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1268-L1293
  */
 class MissingArgsError extends TypeError {
-    /** @param {Array<string>} args The missing argument names. */
+    /** @param {Array<string>} args The names of the missing arguments. */
     constructor(...args) {
         assert_1.strict(args.length > 0, 'At least one argument needs to be specified');
         let msg = 'The ';

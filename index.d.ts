@@ -141,7 +141,7 @@ export declare class InvalidArgsNumberError extends TypeError {
  */
 export declare class MissingOptionError extends TypeError {
     code: string;
-    /** @param {string} optName The missing option name. */
+    /** @param {string} optName The name of the missing option. */
     constructor(optName: string);
 }
 /**
@@ -157,7 +157,7 @@ export declare class MissingOptionError extends TypeError {
  */
 export declare class MissingArgsError extends TypeError {
     code: string;
-    /** @param {Array<string>} args The missing argument names. */
+    /** @param {Array<string>} args The names of the missing arguments. */
     constructor(...args: string[]);
 }
 /**

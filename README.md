@@ -1,6 +1,14 @@
-<center><h1>@openinf/util-errors</h1></center>
+<h1 align="center">@openinf/util-errors</h1>
 
 <center><em>Essential utility errors inspired by Node.js core error codes</em></center>
+
+<br />
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/@openinf/util-errors"><img src="https://img.shields.io/npm/v/@openinf/util-errors?style=plastic" alt="view on npm" /></a>
+  <img src="https://img.shields.io/github/languages/top/openinf/util-errors?color=blue&style=plastic" />
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/openinf/openinf.github.io?color=blue&style=plastic" alt="License: MIT" /></a>
+</p>
 
 <br />
 
@@ -13,6 +21,8 @@ welcome._
 <br />
 
 ---
+
+<br />
 
 ## Classes
 
@@ -304,6 +314,6 @@ event is emitted by an EventEmitter without an 'error' handler registered).
 - https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1454-L1461
 
 
-* * *
+---
 
 &copy; OpenINF

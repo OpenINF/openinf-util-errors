@@ -148,8 +148,8 @@ function getRecievedSubMsg(value:unknown):string {
   } else if (typeof value === 'function' && hasOwn(value, 'name')) {
     msg += `. Received function ${curlyQuote(value.name)}`;
   } else if (isObject(value)) {
-    if (ownProperty(value, 'constructor') &&
-      ownProperty(map(value).constructor, 'name')) {
+    if (hasOwn(value, 'constructor') &&
+      hasOwn(map(value).constructor, 'name')) {
       msg += `. Received an instance of ${
         curlyQuote(map(value).constructor.name)
       }`;

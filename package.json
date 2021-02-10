@@ -15,7 +15,13 @@
     "url": "git+https://github.com/openinf/util-errors.git"
   },
   "keywords": [
-    "errors"
+    "error",
+    "errors",
+    "exception",
+    "exceptions",
+    "validation",
+    "argument",
+    "missing"
   ],
   "author": "The OpenINF Authors",
   "license": "MIT",

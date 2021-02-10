@@ -1,14 +1,6 @@
 /**
- * @license
- * Copyright OpenINF All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://open.inf.is/license
- */
-/**
  * Thrown in case an invalid or unsupported value was passed for a given argument.
  * @see https://nodejs.org/api/errors.html#ERR_INVALID_ARG_VALUE
- * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1121-L1128
  */
 export declare class InvalidArgValueError extends TypeError {
     code: string;
@@ -22,7 +14,6 @@ export declare class InvalidArgValueError extends TypeError {
 /**
  * Thrown in case an argument of the wrong type was passed for a given argument.
  * @see https://nodejs.org/api/errors.html#ERR_INVALID_ARG_TYPE
- * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1014-L1120
  */
 export declare class InvalidArgTypeError extends TypeError {
     code: string;
@@ -63,7 +54,6 @@ export declare class InvalidPropertyTypeError extends TypeError {
  * Thrown in case a function does not provide a valid value for one of
  * its returned object properties on execution.
  * @see https://nodejs.org/api/errors.html#ERR_INVALID_RETURN_PROPERTY
- * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1187-L1190
  */
 export declare class InvalidReturnPropertyValueError extends TypeError {
     code: string;
@@ -79,7 +69,6 @@ export declare class InvalidReturnPropertyValueError extends TypeError {
  * Thrown in case a function does not provide an expected value type for
  * one of its returned object properties on execution.
  * @see https://nodejs.org/api/errors.html#ERR_INVALID_RETURN_PROPERTY_VALUE
- * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1191-L1200
  */
 export declare class InvalidReturnPropertyTypeError extends TypeError {
     code: string;
@@ -95,7 +84,6 @@ export declare class InvalidReturnPropertyTypeError extends TypeError {
  * Thrown in case a function does not return an expected valid value on
  * execution.
  * @see https://nodejs.org/api/errors.html#ERR_INVALID_RETURN_VALUE
- * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1201-L1210
  */
 export declare class InvalidReturnValueError extends TypeError {
     code: string;
@@ -110,7 +98,6 @@ export declare class InvalidReturnValueError extends TypeError {
  * Thrown in case a function does not return an expected value type on
  * execution, such as when a function is expected to return a promise.
  * @see https://nodejs.org/api/errors.html#ERR_INVALID_RETURN_VALUE
- * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1201-L1210
  */
 export declare class InvalidReturnTypeError extends TypeError {
     code: string;
@@ -137,7 +124,6 @@ export declare class InvalidArgsNumberError extends TypeError {
  * For APIs that accept options objects, some options might be mandatory. This
  * error is thrown if a required option is missing.
  * @see https://nodejs.org/api/errors.html#ERR_MISSING_OPTION
- * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1294
  */
 export declare class MissingOptionError extends TypeError {
     code: string;
@@ -153,7 +139,6 @@ export declare class MissingOptionError extends TypeError {
  * `ERR_INVALID_ARG_TYPE` error code may be used instead.
  *
  * @see https://nodejs.org/api/errors.html#ERR_MISSING_ARGS
- * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1268-L1293
  */
 export declare class MissingArgsError extends TypeError {
     code: string;
@@ -164,7 +149,6 @@ export declare class MissingArgsError extends TypeError {
  * Thrown in case an unhandled error occurred (for instance, when an 'error'
  * event is emitted by an EventEmitter without an 'error' handler registered).
  * @see https://nodejs.org/api/errors.html#ERR_UNHANDLED_ERROR
- * @see https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1454-L1461
  */
 export declare class UnhandledErrorError extends Error {
     code: string;

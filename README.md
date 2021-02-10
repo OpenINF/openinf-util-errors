@@ -7,7 +7,7 @@
 <p align="center">
   <a href="https://www.npmjs.com/package/@openinf/util-errors"><img src="https://img.shields.io/npm/v/@openinf/util-errors?style=plastic" alt="view on npm" /></a>
   <img src="https://img.shields.io/github/languages/top/openinf/util-errors?color=blue&style=plastic" />
-  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/openinf/openinf.github.io?color=blue&style=plastic" alt="License: MIT" /></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/openinf/util-errors?color=blue&style=plastic" alt="License: MIT" /></a>
 </p>
 
 <br />
@@ -127,11 +127,7 @@ event is emitted by an EventEmitter without an &#39;error&#39; handler registere
 Thrown in case an invalid or unsupported value was passed for a given argument.
 
 **Kind**: global class  
-**See**
-
-- https://nodejs.org/api/errors.html#ERR_INVALID_ARG_VALUE
-- https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1121-L1128
-
+**See**: https://nodejs.org/api/errors.html#ERR_INVALID_ARG_VALUE  
 <a name="new_InvalidArgValueError_new"></a>
 
 ### new InvalidArgValueError(argName, value, reason)
@@ -148,11 +144,7 @@ Thrown in case an invalid or unsupported value was passed for a given argument.
 Thrown in case an argument of the wrong type was passed for a given argument.
 
 **Kind**: global class  
-**See**
-
-- https://nodejs.org/api/errors.html#ERR_INVALID_ARG_TYPE
-- https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1014-L1120
-
+**See**: https://nodejs.org/api/errors.html#ERR_INVALID_ARG_TYPE  
 <a name="new_InvalidArgTypeError_new"></a>
 
 ### new InvalidArgTypeError(argName, expected, value)
@@ -204,11 +196,7 @@ Thrown in case a function does not provide a valid value for one of
 its returned object properties on execution.
 
 **Kind**: global class  
-**See**
-
-- https://nodejs.org/api/errors.html#ERR_INVALID_RETURN_PROPERTY
-- https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1187-L1190
-
+**See**: https://nodejs.org/api/errors.html#ERR_INVALID_RETURN_PROPERTY  
 <a name="new_InvalidReturnPropertyValueError_new"></a>
 
 ### new InvalidReturnPropertyValueError(funcName, propName, value, reason)
@@ -227,11 +215,7 @@ Thrown in case a function does not provide an expected value type for
 one of its returned object properties on execution.
 
 **Kind**: global class  
-**See**
-
-- https://nodejs.org/api/errors.html#ERR_INVALID_RETURN_PROPERTY_VALUE
-- https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1191-L1200
-
+**See**: https://nodejs.org/api/errors.html#ERR_INVALID_RETURN_PROPERTY_VALUE  
 <a name="new_InvalidReturnPropertyTypeError_new"></a>
 
 ### new InvalidReturnPropertyTypeError(funcName, propName, expected, value)
@@ -250,11 +234,7 @@ Thrown in case a function does not return an expected valid value on
 execution.
 
 **Kind**: global class  
-**See**
-
-- https://nodejs.org/api/errors.html#ERR_INVALID_RETURN_VALUE
-- https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1201-L1210
-
+**See**: https://nodejs.org/api/errors.html#ERR_INVALID_RETURN_VALUE  
 <a name="new_InvalidReturnValueError_new"></a>
 
 ### new InvalidReturnValueError(funcName, value, reason)
@@ -272,11 +252,7 @@ Thrown in case a function does not return an expected value type on
 execution, such as when a function is expected to return a promise.
 
 **Kind**: global class  
-**See**
-
-- https://nodejs.org/api/errors.html#ERR_INVALID_RETURN_VALUE
-- https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1201-L1210
-
+**See**: https://nodejs.org/api/errors.html#ERR_INVALID_RETURN_VALUE  
 <a name="new_InvalidReturnTypeError_new"></a>
 
 ### new InvalidReturnTypeError(funcName, expected, value)
@@ -310,11 +286,7 @@ For APIs that accept options objects, some options might be mandatory. This
 error is thrown if a required option is missing.
 
 **Kind**: global class  
-**See**
-
-- https://nodejs.org/api/errors.html#ERR_MISSING_OPTION
-- https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1294
-
+**See**: https://nodejs.org/api/errors.html#ERR_MISSING_OPTION  
 <a name="new_MissingOptionError_new"></a>
 
 ### new MissingOptionError(optName)
@@ -334,11 +306,7 @@ Node.js APIs, `func(undefined)` and `func()` are treated identically, and the
 `ERR_INVALID_ARG_TYPE` error code may be used instead.
 
 **Kind**: global class  
-**See**
-
-- https://nodejs.org/api/errors.html#ERR_MISSING_ARGS
-- https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1268-L1293
-
+**See**: https://nodejs.org/api/errors.html#ERR_MISSING_ARGS  
 <a name="new_MissingArgsError_new"></a>
 
 ### new MissingArgsError(...args)
@@ -354,11 +322,7 @@ Thrown in case an unhandled error occurred (for instance, when an 'error'
 event is emitted by an EventEmitter without an 'error' handler registered).
 
 **Kind**: global class  
-**See**
-
-- https://nodejs.org/api/errors.html#ERR_UNHANDLED_ERROR
-- https://github.com/nodejs/node/blob/8c9dc4e9e65af92c9b66bbbe1b001430d9110cd9/lib/internal/errors.js#L1454-L1461
-
+**See**: https://nodejs.org/api/errors.html#ERR_UNHANDLED_ERROR  
 
 <br />
 
@@ -366,4 +330,5 @@ event is emitted by an EventEmitter without an 'error' handler registered).
 
 <br />
 
-&copy; OpenINF
+<p align="center">&copy; The OpenINF Authors</center></p>
+<p align="center"><img height="32px" width="32px" src="https://raw.githubusercontent.com/openinf/openinf.github.io/live/logo.svg" /></p>

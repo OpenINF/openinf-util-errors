@@ -35,7 +35,7 @@
     "@openinf/util-types": "^2.0.2"
   },
   "devDependencies": {
-    "@types/node": "16.11.10",
+    "@types/node": "16.11.11",
     "jsdoc-to-markdown": "7.1.0",
     "typescript": "4.5.2"
   }

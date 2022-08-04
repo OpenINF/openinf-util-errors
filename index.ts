@@ -188,7 +188,7 @@ export class InvalidArgValueError extends TypeError {
    * @param {unknown} value The actual invalid argument value.
    * @param {string} reason The reason for invalidity.
    */
-  constructor(argName:string, value:unknown, reason:string = 'is invalid') {
+  constructor(argName:string, value:unknown, reason = 'is invalid') {
     assert(typeof argName === 'string',
       `The ${curlyQuote('argName')} argument must be of type ` +
         `${curlyQuote('string')}`);
@@ -241,7 +241,7 @@ export class InvalidPropertyValueError extends TypeError {
    * @param {string} reason The reason for invalidity.
    */
   constructor(objName:string, propName:string, value:unknown,
-    reason:string = 'is invalid') {
+    reason = 'is invalid') {
     assert(typeof objName === 'string',
     `The ${curlyQuote('objName')} argument must be of type ` +
       `${curlyQuote('string')}`);
@@ -301,7 +301,7 @@ export class InvalidReturnPropertyValueError extends TypeError {
    * @param {string} reason The reason for invalidity.
    */
   constructor(funcName:string, propName:string, value:unknown,
-    reason:string = 'is invalid') {
+    reason = 'is invalid') {
     assert(typeof funcName === 'string',
       `The ${curlyQuote('funcName')} argument must be of type ` +
         `${curlyQuote('string')}`);

@@ -25,9 +25,9 @@
   "bugs": "https://github.com/openinf/util-errors/issues",
   "homepage": "https://github.com/openinf/util-errors#readme",
   "dependencies": {
-    "@openinf/util-object": "^2.0.1",
-    "@openinf/util-text": "^1.1.2",
-    "@openinf/util-types": "^2.1.3"
+    "@openinf/util-object": "2.0.1",
+    "@openinf/util-text": "1.1.2",
+    "@openinf/util-types": "2.1.3"
   },
   "devDependencies": {
     "@types/node": "18.0.3",

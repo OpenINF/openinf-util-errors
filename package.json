@@ -10,10 +10,7 @@
     "compile-doc": "jsdoc2md --template README.hbs --files index.js > ./README.md",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/openinf/util-errors.git"
-  },
+  "repository": "openinf/util-errors",
   "keywords": [
     "error",
     "errors",
@@ -25,9 +22,7 @@
   ],
   "author": "The OpenINF Authors",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/openinf/util-errors/issues"
-  },
+  "bugs": "https://github.com/openinf/util-errors/issues",
   "homepage": "https://github.com/openinf/util-errors#readme",
   "dependencies": {
     "@openinf/util-object": "^2.0.1",

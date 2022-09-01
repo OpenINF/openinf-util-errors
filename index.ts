@@ -29,7 +29,7 @@
 import { strict as assert } from 'assert';
 import { inspect as utilInspect } from 'util';
 import { isArray, isObject } from '@openinf/util-types';
-import { ownProperty, hasOwn, map } from '@openinf/util-object';
+import { hasOwn, map } from '@openinf/util-object';
 import { curlyQuote, ellipsify } from '@openinf/util-text';
 
 const classRegExp = /^([A-Z][a-z0-9]*)+$/;

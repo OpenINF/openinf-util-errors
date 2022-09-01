@@ -7,9 +7,10 @@ Essential utility errors inspired by Node.js core error codes
 <br />
 
 [!['View on npm'][npm-badge--shields]][npm-badge-url]
-[!['GitHub Language'][github-language--shields]][github-language-url]
-[!['License: MIT'][license-badge--shields]][license-badge-url]
+!['TypeScript types: included'][types-included-badge]
 [!['DeepScan grade'][deepscan-badge]][deepscan-url]
+[!['License: MIT'][license-badge--shields]][license-badge-url]
+[!['FOSSA Status'][fossa-badge]][fossa-url]
 
 </div>
 
@@ -344,31 +345,38 @@ event is emitted by an EventEmitter without an 'error' handler registered).
 
 <br />
 
-<p align="center">&copy; The OpenINF Authors</center></p>
-<p align="center"><img height="32px" width="32px" src="https://raw.githubusercontent.com/openinf/openinf.github.io/live/logo.svg" /></p>
+<div align="center">
+
+&copy; The OpenINF Authors
 
 <br />
+
+<a title="The OpenINF website" href="https://open.inf.is" rel="author">
+  <img alt="The OpenINF logo" height="32px" width="32px" src="https://raw.githubusercontent.com/openinf/openinf.github.io/live/logo.svg?sanitize=true" />
+</a>
+
+</div>
 
 <!-- prettier-ignore-start -->
 <!-- PRESERVE LINK DEFINITION LABEL CASE - START -->
 
-[deepscan-badge]: https://deepscan.io/api/teams/18447/projects/21802/branches/634013/badge/grade.svg 'DeepScan grade'
+[deepscan-badge]: https://badgen.net/deepscan/grade/team/18447/project/21802/branch/634013?icon=deepscan 'DeepScan grade'
 [deepscan-url]: https://deepscan.io/dashboard#view=project&tid=18447&pid=21802&bid=634013 'DeepScan grade'
 [deepsource-badge]: https://deepsource.io/gh/openinf/util-errors.svg/?label=active+issues&show_trend=true&token=iF1YS-_ZSGmlibarZ1ItKO9o
 [deepsource-url]: https://deepsource.io/gh/openinf/util-errors/?ref=repository-badge 'Active Issues: DeepSource'
 [conventional-commits-badge]: https://img.shields.io/badge/commit%20style-Conventional-%23fa6673?logoColor=white&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMCAzMCI+PHBhdGggc3R5bGU9ImZpbGw6ICNGRkYiIGQ9Ik0xNSwyQTEzLDEzLDAsMSwxLDIsMTUsMTMsMTMsMCwwLDEsMTUsMm0wLTJBMTUsMTUsMCwxLDAsMzAsMTUsMTUsMTUsMCwwLDAsMTUsMFoiLz48L3N2Zz4K 'Commit Style: Conventional Commits'
 [conventional-commits-url]: https://www.conventionalcommits.org 'Commit Style: Conventional Commits'
-[github-language-url]: https://github.com/openinf/util-errors
-[github-language--shields]: https://img.shields.io/github/languages/top/openinf/util-errors?color=blue&logo=github
+[fossa-badge]: https://app.fossa.com/api/projects/git%2Bgithub.com%2Fopeninf%2Futil-errors.svg?type=small 'FOSSA Status'
+[fossa-url]: https://app.fossa.com/projects/git%2Bgithub.com%2Fopeninf%2Futil-errors?ref=badge_small 'FOSSA Status'
 [license-badge-url]: https://spdx.org/licenses/MIT.html 'License: MIT'
-[license-badge--shields]: https://img.shields.io/github/license/openinf/util-errors?color=blue 'License: MIT'
-[matrix-badge--badgen]: https://badgen.net/matrix/members/openinf/matrix.org 'Chat on Matrix'
+[license-badge--shields]: https://img.shields.io/github/license/openinf/util-errors?color=blue&logo=github 'License: MIT'
 [matrix-badge--shields]: https://img.shields.io/badge/matrix-join%20chat-%2346BC99?logo=matrix 'Chat on Matrix'
 [matrix-url]: https://matrix.to/#/#openinf:matrix.org 'You&apos;re invited to talk on Matrix'
 [npm-badge--shields]: https://img.shields.io/npm/v/@openinf/util-errors/latest.svg?logo=npm 'View on npm'
 [npm-badge-url]: https://www.npmjs.com/package/@openinf/util-errors#top 'View on npm'
 [prettier-badge]: https://img.shields.io/badge/code_style-Prettier-ff69b4.svg?logo=prettier 'Code Style: Prettier'
 [prettier-url]: https://prettier.io/playground 'Code Style: Prettier'
+[types-included-badge]: https://badgen.net/npm/types/@openinf/util-errors?icon=typescript 'TypeScript types: included'
 
 <!-- PRESERVE LINK DEFINITION LABEL CASE - END -->
 <!-- prettier-ignore-end -->

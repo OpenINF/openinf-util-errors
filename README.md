@@ -339,13 +339,21 @@ event is emitted by an EventEmitter without an 'error' handler registered).
 **Kind**: global class  
 **See**: https://nodejs.org/api/errors.html#ERR_UNHANDLED_ERROR  
 
-<br />
+<br /><br />
 
 ---
 
 <br />
 
 <div align="center">
+
+## Show Your Support
+
+<!-- Give a ⭐️ if this project helped you! -->
+
+If you like the project, [give it a star ⭐️], it will be a great encouragement to us.
+
+<br /><br />
 
 &copy; The OpenINF Authors
 
@@ -359,6 +367,8 @@ event is emitted by an EventEmitter without an 'error' handler registered).
 
 <!-- prettier-ignore-start -->
 <!-- PRESERVE LINK DEFINITION LABEL CASE - START -->
+
+[give it a star ⭐️]: https://github.com/openinf/util-errors/stargazers
 
 [deepscan-badge]: https://badgen.net/deepscan/grade/team/18447/project/21800/branch/634011?icon=deepscan 'DeepScan grade'
 [deepscan-url]: https://deepscan.io/dashboard#view=project&tid=18447&pid=21800&bid=634011 'DeepScan grade'

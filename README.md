@@ -433,7 +433,7 @@ greatly encourage us.
 <!-- prettier-ignore-start -->
 <!-- PRESERVE LINK DEFINITION LABEL CASE - START -->
 
-[give it a star ⭐️]: https://github.com/openinf/util-errors/stargazers
+[give it a star ⭐️]: https://github.com/openinf/openinf-util-errors/stargazers
 
 [deepscan-badge]: https://badgen.net/deepscan/grade/team/18447/project/21800/branch/634011?icon=deepscan 'DeepScan grade'
 [deepscan-url]: https://deepscan.io/dashboard#view=project&tid=18447&pid=21800&bid=634011 'DeepScan grade'

@@ -9,7 +9,6 @@ Essential utility errors inspired by Node.js core error codes
 [!['View on npm'][npm-badge--shields]][npm-badge-url]
 [!['DeepScan grade'][deepscan-badge]][deepscan-url]
 [!['License: MIT'][license-badge--shields]][license-badge-url]
-[!['FOSSA Status'][fossa-badge]][fossa-url]
 
 </div>
 
@@ -435,8 +434,6 @@ greatly encourage us.
 [deepsource-url]: https://deepsource.io/gh/openinf/openinf-util-errors/?ref=repository-badge 'Active Issues: DeepSource'
 [conventional-commits-badge]: https://img.shields.io/badge/commit%20style-Conventional-%23fa6673?logoColor=white&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMCAzMCI+PHBhdGggc3R5bGU9ImZpbGw6ICNGRkYiIGQ9Ik0xNSwyQTEzLDEzLDAsMSwxLDIsMTUsMTMsMTMsMCwwLDEsMTUsMm0wLTJBMTUsMTUsMCwxLDAsMzAsMTUsMTUsMTUsMCwwLDAsMTUsMFoiLz48L3N2Zz4K 'Commit Style: Conventional Commits'
 [conventional-commits-url]: https://www.conventionalcommits.org 'Commit Style: Conventional Commits'
-[fossa-badge]: https://app.fossa.com/api/projects/git%2Bgithub.com%2Fopeninf%2Futil-errors.svg?type=small 'FOSSA Status'
-[fossa-url]: https://app.fossa.com/projects/git%2Bgithub.com%2Fopeninf%2Futil-errors?ref=badge_small 'FOSSA Status'
 [give it a star ⭐️]: https://github.com/OpenINF/openinf-util-errors/stargazers
 [license-badge--shields]: https://img.shields.io/badge/license-MIT-blue.svg?logo=github 'License: MIT'
 [license-badge-url]: https://spdx.org/licenses/MIT.html 'License: MIT'

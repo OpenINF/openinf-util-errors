@@ -17,8 +17,8 @@ Essential utility errors inspired by Node.js core error codes
 _The high-level goal of `@openinf/util-errors` is to serve as a Node.js package
 containing **essential utility error classes** that take the form of those found
 and used in Node.js core. As is the case with any software project in continuous
-development, omissions and errors may exist, for which contributions are
-welcome._
+development, omissions and errors may exist, for which [contributions are
+welcome](#contributing)._
 
 <br />
 
@@ -409,6 +409,13 @@ event is emitted by an EventEmitter without an 'error' handler registered).
 
 <div align="center">
 
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to
+discuss what you would like to change.
+
+<br />
+
 ## Show Your Support
 
 <!-- Give a ⭐️ if this project helped you! -->
@@ -420,7 +427,7 @@ greatly encourage us.
 
 &copy; The OpenINF Authors
 
-<br />
+<br /><br />
 
 <a title="The OpenINF website" href="https://open.inf.is" rel="author">
   <img alt="The OpenINF logo" height="32px" width="32px" src="https://raw.githubusercontent.com/openinf/openinf.github.io/live/logo.svg?sanitize=true" />

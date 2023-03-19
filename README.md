@@ -2,7 +2,7 @@
 
 <div align="center">
 
-# @openinf/util-errors
+## @openinf/util-errors
 
 Essential utility errors inspired by Node.js core error codes
 
@@ -73,7 +73,7 @@ welcome](#contributing)._
 
 <br />
 
-## Installation
+### Installation
 
 `@openinf/util-errors` runs on
 [supported versions of Node.js](#platform--node-js-lts) and is available via
@@ -109,7 +109,7 @@ for more information.</sup>
 yarn add @openinf/util-errors
 ```
 
-## Usage
+### Usage
 
 To get started using the error classes provided by `@openinf/util-errors`, all
 that needs to be done is either import/require (depending on the module format)
@@ -147,7 +147,7 @@ log.info('Hello, World!');
 
 <br />
 
-## Classes
+### Classes
 
 <dl>
 <dt><a href="#InvalidArgValueError">InvalidArgValueError</a></dt>
@@ -409,14 +409,14 @@ event is emitted by an EventEmitter without an 'error' handler registered).
 
 <div align="center">
 
-## Contributing
+### Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to
 discuss what you would like to change.
 
 <br />
 
-## Show Your Support
+### Show Your Support
 
 <!-- Give a ⭐️ if this project helped you! -->
 

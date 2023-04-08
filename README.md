@@ -407,12 +407,24 @@ event is emitted by an EventEmitter without an 'error' handler registered).
 
 <br />
 
-<div align="center">
-
 ### Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to
 discuss what you would like to change.
+
+<br />
+
+### License
+
+This project is licensed under either of
+
+- [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+- [MIT license](https://opensource.org/licenses/MIT)
+
+at your option.
+
+The [SPDX](https://spdx.dev) license identifier for this project is
+`MIT OR Apache-2.0`.
 
 <br /><br />
 

@@ -67,7 +67,21 @@ welcome](#contributing)._
 
 </div>
 
+<br /><br />
+
+---
+
 <br />
+
+### Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [API](#api)
+- [Contributing](#contributing)
+- [License](#license)
+
+<br /><br />
 
 ---
 
@@ -109,6 +123,8 @@ for more information.</sup>
 yarn add @openinf/util-errors
 ```
 
+<br /><br />
+
 ### Usage
 
 To get started using the error classes provided by `@openinf/util-errors`, all
@@ -141,13 +157,9 @@ log.info('Hello, World!');
   (`require()`) is available, destructuring the individual error classes works
   just as well.
 
-<br />
+<br /><br />
 
----
-
-<br />
-
-### Classes
+### API
 
 <dl>
 <dt><a href="#InvalidArgValueError">InvalidArgValueError</a></dt>

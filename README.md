@@ -212,14 +212,14 @@ event is emitted by an EventEmitter without an &#39;error&#39; handler registere
 
 <a name="InvalidArgValueError"></a>
 
-## InvalidArgValueError
+#### InvalidArgValueError
 Thrown in case an invalid or unsupported value was passed for a given argument.
 
 **Kind**: global class  
 **See**: https://nodejs.org/api/errors.html#ERR_INVALID_ARG_VALUE  
 <a name="new_InvalidArgValueError_new"></a>
 
-### new InvalidArgValueError(argName, value, reason)
+##### new InvalidArgValueError(argName, value, reason)
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -229,14 +229,14 @@ Thrown in case an invalid or unsupported value was passed for a given argument.
 
 <a name="InvalidArgTypeError"></a>
 
-## InvalidArgTypeError
+#### InvalidArgTypeError
 Thrown in case an argument of the wrong type was passed for a given argument.
 
 **Kind**: global class  
 **See**: https://nodejs.org/api/errors.html#ERR_INVALID_ARG_TYPE  
 <a name="new_InvalidArgTypeError_new"></a>
 
-### new InvalidArgTypeError(argName, expected, value)
+##### new InvalidArgTypeError(argName, expected, value)
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -246,13 +246,13 @@ Thrown in case an argument of the wrong type was passed for a given argument.
 
 <a name="InvalidPropertyValueError"></a>
 
-## InvalidPropertyValueError
+#### InvalidPropertyValueError
 Thrown in case an invalid or unsupported value of an object property.
 
 **Kind**: global class  
 <a name="new_InvalidPropertyValueError_new"></a>
 
-### new InvalidPropertyValueError(objName, propName, value, reason)
+##### new InvalidPropertyValueError(objName, propName, value, reason)
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -263,13 +263,13 @@ Thrown in case an invalid or unsupported value of an object property.
 
 <a name="InvalidPropertyTypeError"></a>
 
-## InvalidPropertyTypeError
+#### InvalidPropertyTypeError
 Thrown in case an invalid or unsupported value type for an object property.
 
 **Kind**: global class  
 <a name="new_InvalidPropertyTypeError_new"></a>
 
-### new InvalidPropertyTypeError(objName, propName, expected, value)
+##### new InvalidPropertyTypeError(objName, propName, expected, value)
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -280,7 +280,7 @@ Thrown in case an invalid or unsupported value type for an object property.
 
 <a name="InvalidReturnPropertyValueError"></a>
 
-## InvalidReturnPropertyValueError
+#### InvalidReturnPropertyValueError
 Thrown in case a function does not provide a valid value for one of
 its returned object properties on execution.
 
@@ -288,7 +288,7 @@ its returned object properties on execution.
 **See**: https://nodejs.org/api/errors.html#ERR_INVALID_RETURN_PROPERTY  
 <a name="new_InvalidReturnPropertyValueError_new"></a>
 
-### new InvalidReturnPropertyValueError(funcName, propName, value, reason)
+##### new InvalidReturnPropertyValueError(funcName, propName, value, reason)
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -299,7 +299,7 @@ its returned object properties on execution.
 
 <a name="InvalidReturnPropertyTypeError"></a>
 
-## InvalidReturnPropertyTypeError
+#### InvalidReturnPropertyTypeError
 Thrown in case a function does not provide an expected value type for
 one of its returned object properties on execution.
 
@@ -307,7 +307,7 @@ one of its returned object properties on execution.
 **See**: https://nodejs.org/api/errors.html#ERR_INVALID_RETURN_PROPERTY_VALUE  
 <a name="new_InvalidReturnPropertyTypeError_new"></a>
 
-### new InvalidReturnPropertyTypeError(funcName, propName, expected, value)
+##### new InvalidReturnPropertyTypeError(funcName, propName, expected, value)
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -318,7 +318,7 @@ one of its returned object properties on execution.
 
 <a name="InvalidReturnValueError"></a>
 
-## InvalidReturnValueError
+#### InvalidReturnValueError
 Thrown in case a function does not return an expected valid value on
 execution.
 
@@ -326,7 +326,7 @@ execution.
 **See**: https://nodejs.org/api/errors.html#ERR_INVALID_RETURN_VALUE  
 <a name="new_InvalidReturnValueError_new"></a>
 
-### new InvalidReturnValueError(funcName, value, reason)
+##### new InvalidReturnValueError(funcName, value, reason)
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -336,7 +336,7 @@ execution.
 
 <a name="InvalidReturnTypeError"></a>
 
-## InvalidReturnTypeError
+#### InvalidReturnTypeError
 Thrown in case a function does not return an expected value type on
 execution, such as when a function is expected to return a promise.
 
@@ -344,7 +344,7 @@ execution, such as when a function is expected to return a promise.
 **See**: https://nodejs.org/api/errors.html#ERR_INVALID_RETURN_VALUE  
 <a name="new_InvalidReturnTypeError_new"></a>
 
-### new InvalidReturnTypeError(funcName, expected, value)
+##### new InvalidReturnTypeError(funcName, expected, value)
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -354,13 +354,13 @@ execution, such as when a function is expected to return a promise.
 
 <a name="InvalidArgsNumberError"></a>
 
-## InvalidArgsNumberError
+#### InvalidArgsNumberError
 Thrown in case the number of arguments passed to a function is invalid.
 
 **Kind**: global class  
 <a name="new_InvalidArgsNumberError_new"></a>
 
-### new InvalidArgsNumberError(funcName, expected, value)
+##### new InvalidArgsNumberError(funcName, expected, value)
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -370,7 +370,7 @@ Thrown in case the number of arguments passed to a function is invalid.
 
 <a name="MissingOptionError"></a>
 
-## MissingOptionError
+#### MissingOptionError
 For APIs that accept options objects, some options might be mandatory. This
 error is thrown if a required option is missing.
 
@@ -378,7 +378,7 @@ error is thrown if a required option is missing.
 **See**: https://nodejs.org/api/errors.html#ERR_MISSING_OPTION  
 <a name="new_MissingOptionError_new"></a>
 
-### new MissingOptionError(optName)
+##### new MissingOptionError(optName)
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -386,7 +386,7 @@ error is thrown if a required option is missing.
 
 <a name="MissingArgsError"></a>
 
-## MissingArgsError
+#### MissingArgsError
 Thrown in case a required argument of an API was not passed.
 
 This is only used for strict compliance with the API specification (which in
@@ -398,7 +398,7 @@ Node.js APIs, `func(undefined)` and `func()` are treated identically, and the
 **See**: https://nodejs.org/api/errors.html#ERR_MISSING_ARGS  
 <a name="new_MissingArgsError_new"></a>
 
-### new MissingArgsError(...args)
+##### new MissingArgsError(...args)
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -406,7 +406,7 @@ Node.js APIs, `func(undefined)` and `func()` are treated identically, and the
 
 <a name="UnhandledErrorError"></a>
 
-## UnhandledErrorError
+#### UnhandledErrorError
 Thrown in case an unhandled error occurred (for instance, when an 'error'
 event is emitted by an EventEmitter without an 'error' handler registered).
 

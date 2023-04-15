@@ -1,21 +1,11 @@
 {
   "name": "@openinf/util-errors",
-  "version": "2.0.7",
+  "version": "0.0.0-development",
   "description": "Essential utility errors inspired by Node.js core error codes",
+  "packageManager": "pnpm@8.2.0",
   "engines": {
-    "node": "^14.15.0 || ^16.13.0 || ^18.12.0",
-    "npm": "^6.14.8 || ^8.1.0 || ^8.19.2 || ^9.0.0",
-    "npx": "^6.14.8 || ^8.1.0 || ^8.19.2 || ^9.0.0"
+    "node": "^16.13.0"
   },
-  "main": "./index.js",
-  "types": "./index.d.ts",
-  "scripts": {
-    "prepare": "npm run compile-src && npm run compile-doc",
-    "compile-src": "tsc --project ./",
-    "compile-doc": "",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": "openinf/util-errors",
   "keywords": [
     "error",
     "errors",
@@ -25,10 +15,20 @@
     "argument",
     "missing"
   ],
+  "repository": "OpenINF/openinf-util-errors",
+  "license": "MIT OR Apache-2.0",
   "author": "The OpenINF Authors",
-  "license": "MIT",
-  "bugs": "https://github.com/openinf/util-errors/issues",
-  "homepage": "https://github.com/openinf/util-errors#readme",
+  "directories": {
+    "lib": "lib",
+    "doc": "doc",
+    "test": "test"
+  },
+  "scripts": {
+    "prepare": "npm run compile-src && npm run compile-doc",
+    "compile-src": "tsc --project ./",
+    "compile-doc": "",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "@openinf/util-object": "2.0.1",
     "@openinf/util-text": "1.1.2",

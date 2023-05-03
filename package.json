@@ -35,7 +35,7 @@
     "@openinf/util-types": "2.1.3"
   },
   "devDependencies": {
-    "@types/node": "18.16.1",
+    "@types/node": "18.x.x",
     "typescript": "5.0.4"
   }
 }

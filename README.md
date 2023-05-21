@@ -1,29 +1,30 @@
 [![Orange banner indicating a preview software component][release-level-banner--unstable]](##)
 
+<br />
+
 <!-- markdownlint-disable-next-line line-length -->
 <a href="##"><img src="https://raw.githubusercontent.com/OpenINF/openinf.github.io/live/assets/img/svg/logogram-color.svg?sanitize=true" alt="OpenINF logo" title="OpenINF" align="right" height="96" width="96" /></a>
 
-<div align="center">
+<div align="left">
 
-## @openinf/util-errors
+## `@openinf/util-errors`
 
-Essential utility errors inspired by Node.js core error codes
+> Essential utility errors inspired by Node.js core error codes
 
 <br />
 
 [!['View on npm'][npm-badge--shields]][npm-badge-url]
 [!['License: MIT/Apache-2.0'][license-badge--shields]][license-badge-url]
-!['Project Status: Under construction'][project-status-badge]
 
 </div>
 
 <br />
 
-_The high-level goal of `@openinf/util-errors` is to serve as a Node.js package
+The high-level goal of `@openinf/util-errors` is to serve as a Node.js package
 containing **essential utility error classes** that take the form of those found
 and used in Node.js core. As is the case with any software project in continuous
 development, omissions and errors may exist, for which [contributions are
-welcome](#contributing)._
+welcome](#contributing).
 
 <br />
 

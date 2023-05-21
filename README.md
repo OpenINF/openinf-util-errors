@@ -22,9 +22,11 @@
 
 The high-level goal of `@openinf/util-errors` is to serve as a Node.js package
 containing **essential utility error classes** that take the form of those found
-and used in Node.js core. As is the case with any software project in continuous
-development, omissions and errors may exist, for which [contributions are
-welcome](#contributing).
+and used in Node.js core. We are constantly working to improve this repository,
+so please feel free to [contribute](#contributing) if you notice any omissions
+or errors.
+
+Thanks!
 
 <br />
 

@@ -289,8 +289,7 @@ Thrown in case an invalid or unsupported value type for an object property.
 | --- | --- | --- |
 | objName | <code>string</code> | The name of the object in question. |
 | propName | <code>string</code> | The property name assigned value of invalid type. |
-| expected | <code>Array
-string&gt;</code> \| <code>string</code> | The property type(s) expected. |
+| expected | <code>Array&lt;string&gt;</code> \| <code>string</code> | The property type(s) expected. |
 | value | <code>unknown</code> | The actual property value of invalid type assigned. |
 
 <a name="InvalidReturnPropertyValueError"></a>

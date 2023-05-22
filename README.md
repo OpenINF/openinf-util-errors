@@ -255,7 +255,7 @@ Thrown in case an argument of the wrong type was passed for a given argument.
 | Param | Type | Description |
 | --- | --- | --- |
 | argName | <code>string</code> | The name of the argument of invalid type. |
-| expected | <code>Array.&lt;string&gt;</code> \| <code>string</code> | The argument type(s) expected. |
+| expected | <code>Array&lt;string&gt;</code> \| <code>string</code> | The argument type(s) expected. |
 | value | <code>unknown</code> | The actual argument value of invalid type. |
 
 <a name="InvalidPropertyValueError"></a>
@@ -289,7 +289,8 @@ Thrown in case an invalid or unsupported value type for an object property.
 | --- | --- | --- |
 | objName | <code>string</code> | The name of the object in question. |
 | propName | <code>string</code> | The property name assigned value of invalid type. |
-| expected | <code>Array.&lt;string&gt;</code> \| <code>string</code> | The property type(s) expected. |
+| expected | <code>Array
+string&gt;</code> \| <code>string</code> | The property type(s) expected. |
 | value | <code>unknown</code> | The actual property value of invalid type assigned. |
 
 <a name="InvalidReturnPropertyValueError"></a>
@@ -327,7 +328,7 @@ one of its returned object properties on execution.
 | --- | --- | --- |
 | funcName | <code>string</code> | The name of the function returning the invalidity. |
 | propName | <code>string</code> | The property name assigned value of invalid type. |
-| expected | <code>Array.&lt;string&gt;</code> \| <code>string</code> | The property type(s) expected. |
+| expected | <code>Array&lt;string&gt;</code> \| <code>string</code> | The property type(s) expected. |
 | value | <code>unknown</code> | The actual property value of invalid type assigned. |
 
 <a name="InvalidReturnValueError"></a>
@@ -363,7 +364,7 @@ execution, such as when a function is expected to return a promise.
 | Param | Type | Description |
 | --- | --- | --- |
 | funcName | <code>string</code> | The name of the function returning the invalidity. |
-| expected | <code>Array.&lt;string&gt;</code> \| <code>string</code> | The return type(s) expected. |
+| expected | <code>Array&lt;string&gt;</code> \| <code>string</code> | The return type(s) expected. |
 | value | <code>unknown</code> | The actual value of invalid type returned. |
 
 <a name="InvalidArgsNumberError"></a>
@@ -416,7 +417,7 @@ Node.js APIs, `func(undefined)` and `func()` are treated identically, and the
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ...args | <code>Array.&lt;string&gt;</code> | The names of the missing arguments. |
+| ...args | <code>Array&lt;string&gt;</code> | The names of the missing arguments. |
 
 <a name="UnhandledErrorError"></a>
 

@@ -1,36 +1,12 @@
 {
-  "name": "@openinf/util-errors",
+  "name": "@openinf-internal/util-errors-monorepo",
+  "private": true,
   "version": "0.0.0-development",
-  "description": "Essential utility errors inspired by Node.js core error codes",
+  "description": "Package-based monorepo for @openinf/util-errors and friends",
+  "workspaces": ["packages/*"],
   "packageManager": "pnpm@8.6.3",
-  "keywords": [
-    "error",
-    "errors",
-    "exception",
-    "exceptions",
-    "validation",
-    "argument",
-    "missing"
-  ],
-  "repository": "OpenINF/openinf-util-errors",
   "license": "MIT OR Apache-2.0",
   "author": "The OpenINF Authors",
-  "directories": {
-    "lib": "lib",
-    "doc": "doc",
-    "test": "test"
-  },
-  "scripts": {
-    "prepare": "npm run compile-src && npm run compile-doc",
-    "compile-src": "tsc --project ./",
-    "compile-doc": "",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "@openinf/util-object": "2.0.1",
-    "@openinf/util-text": "1.1.2",
-    "@openinf/util-types": "2.1.3"
-  },
   "devDependencies": {
     "@types/node": "20.x.x",
     "typescript": "5.1.3"
